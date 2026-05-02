@@ -2,39 +2,37 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { Sparkles, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Sparkles, ArrowRight } from "lucide-react";
 import Form from "../../components/forms/Form";
 import InputField from "../../components/forms/InputField";
 import { useLoginMutation } from "../../services/redux/api/modules/authApi";
 import { authSchemas } from "../../zodSchemas/auth/auth.schema";
 import { toast } from "sonner";
+import GradientButton from "@/components/shared/GradientButton";
 
 type LoginFormData = z.infer<typeof authSchemas.loginSchema>;
 
 export default function LoginForm() {
   const router = useRouter();
-  const { register } = useForm<LoginFormData>();
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [login, { isLoading }] = useLoginMutation();
+  const [loginMutation, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const res = await login(data).unwrap();
+      const res = await loginMutation(data).unwrap();
       if (res?.success) {
-        router.push("/");
-        toast.success(res.message);
+        toast.success("Login successful!");
+        router.push("/dashboard");
       }
-    } catch (err) {
-      const error = err as any;
-      setErrorMessage(
-        error?.data?.message ||
-          error?.data ||
-          "Login failed. Please check your credentials.",
-      );
+    } catch (err: any) {
+      const errorMsg =
+        err?.data?.message || err?.data || "Login failed. Please try again.";
+      setErrorMessage(errorMsg);
+      toast.error(errorMsg);
     }
   };
 
@@ -46,20 +44,20 @@ export default function LoginForm() {
         <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
       </div>
 
-      <div className="w-full max-w-sm relative z-10">
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-6 space-y-5 border border-white/20">
+      <div className="w-full max-w-md relative z-10">
+        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-8 md:p-10 space-y-6 border border-white/20">
           <div className="text-center space-y-2">
             <div className="relative inline-block">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-xl blur-lg opacity-50 animate-pulse" />
-              <div className="relative w-14 h-14 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg transform rotate-12 hover:rotate-0 transition-transform duration-500">
+              <div className="relative w-14 h-14 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                 <Sparkles className="w-7 h-7 text-white" />
               </div>
             </div>
             <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
-              PolytechnicEdge
+              Welcome Back
             </h1>
             <p className="text-gray-300 text-sm">
-              Shape your future with innovation
+              Sign in to continue to PolytechnicEdge
             </p>
           </div>
 
@@ -67,8 +65,8 @@ export default function LoginForm() {
             onSubmit={onSubmit}
             resolver={zodResolver(authSchemas.loginSchema)}
             defaultValues={{
-              email: "superadmin@polytechnicedge.com",
-              password: "SuperAdmin@123",
+              email: "",
+              password: "",
               rememberMe: false,
             }}
           >
@@ -76,18 +74,15 @@ export default function LoginForm() {
               <InputField
                 label="Email"
                 name="email"
-                registerOptions={{ required: "Invalid email address" }}
                 type="email"
                 placeholder="you@example.com"
                 icon={<Mail className="w-4 h-4" />}
+                registerOptions={{ required: "Invalid email address" }}
               />
 
               <InputField
                 label="Password"
                 name="password"
-                registerOptions={{
-                  required: "Password is required",
-                }}
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 icon={<Lock className="w-4 h-4" />}
@@ -99,52 +94,50 @@ export default function LoginForm() {
                   )
                 }
                 onRightIconClick={() => setShowPassword(!showPassword)}
+                registerOptions={{ required: "Password is required" }}
               />
 
-              <div className="flex items-center justify-between text-xs">
-                <label className="flex items-center gap-2 cursor-pointer">
+              <div className="flex items-center justify-between text-sm">
+                <label className="flex items-center gap-2 text-gray-300 cursor-pointer">
                   <input
                     type="checkbox"
-                    {...register("rememberMe")}
-                    className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
+                    {...useForm().register("rememberMe")}
+                    className="w-4 h-4 rounded border-gray-600 bg-white/10 text-cyan-400 focus:ring-cyan-400"
                   />
-                  <span className="text-gray-300">Remember me</span>
+                  Remember me
                 </label>
-
-                <a
-                  href="/forgot-password"
-                  className="text-cyan-400 hover:text-cyan-300"
+                <button
+                  type="button"
+                  onClick={() => router.push("/forgot-password")}
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors"
                 >
-                  Forgot?
-                </a>
+                  Forgot password?
+                </button>
               </div>
+
+              {errorMessage && (
+                <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
+                  <p className="text-red-400 text-sm text-center">
+                    {errorMessage}
+                  </p>
+                </div>
+              )}
+
+              <GradientButton isLoading={isLoading}>
+                Sign In
+                <ArrowRight className="w-4 h-4 inline-block ml-2" />
+              </GradientButton>
             </div>
-
-            {errorMessage && (
-              <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
-                <p className="text-red-400 text-sm text-center">
-                  {errorMessage}
-                </p>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full py-3 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:brightness-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? "Signing in..." : "Sign In"}
-            </button>
           </Form>
 
-          <p className="text-center text-gray-400 text-xs pt-3 border-t border-white/10">
+          <p className="text-center text-gray-400 text-sm pt-3 border-t border-white/10">
             Don't have an account?{" "}
-            <a
-              href="/register"
-              className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-semibold"
+            <button
+              onClick={() => router.push("/register")}
+              className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-semibold hover:brightness-125 transition-all"
             >
-              Sign up
-            </a>
+              Create account
+            </button>
           </p>
         </div>
       </div>
