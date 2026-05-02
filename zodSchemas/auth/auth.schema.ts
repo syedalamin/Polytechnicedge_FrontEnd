@@ -77,7 +77,6 @@ const resetPasswordSchema = z.object({
   }),
 });
 const verifyEmailOtpAndLoginSchema = z.object({
-  email: z.string().min(1, { message: "Email is required" }),
   otp: z.string().min(6, { message: "OTP must be at least 6 characters" }),
 });
 const resendOtpSchema = z.object({

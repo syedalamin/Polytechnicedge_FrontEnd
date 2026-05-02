@@ -37,10 +37,11 @@ export default function RegisterForm() {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const res = await registerMutation(data).unwrap();
-      console.log("Registration successful:", res);
       if (res?.success) {
-        router.push("/");
-        toast.success(res.message || "Registration successful!");
+        const userEmail = res?.data?.email || data.email;
+        localStorage.setItem("otp_email", userEmail);
+        router.push("/verify-otp");
+        toast.success(res.message || "Registration successful! Please verify your email.");
       }
     } catch (err) {
       const error = err as any;
@@ -61,8 +62,8 @@ export default function RegisterForm() {
         <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
       </div>
 
-      <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl relative z-10">
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-6 sm:p-8 space-y-5 border border-white/20">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl relative z-10">
+        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 lg:p-12 space-y-5 border border-white/20">
           <div className="text-center space-y-2">
             <div className="relative inline-block">
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-xl blur-lg opacity-50 animate-pulse" />
@@ -95,8 +96,8 @@ export default function RegisterForm() {
               dateOfBirth: "",
             }}
           >
-            <div className="space-y-4 max-h-[40vh] sm:max-h-[50vh] md:max-h-[60vh] overflow-y-auto custom-scrollbar pr-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="space-y-4 max-h-[50vh] sm:max-h-[60vh] md:max-h-[70vh] lg:max-h-[75vh] overflow-y-auto custom-scrollbar pr-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <InputField
                   label="First Name"
                   name="firstName"
@@ -120,7 +121,7 @@ export default function RegisterForm() {
                 />
               </div>
 
-              <div className="grid grid-cols-1   md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 <InputField
                   label="Email"
                   name="email"
@@ -153,7 +154,7 @@ export default function RegisterForm() {
                   onRightIconClick={() => setShowPassword(!showPassword)}
                 />
               </div>
-              <div className="grid grid-cols-1   md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 <InputField
                   label="Contact Number"
                   name="contactNumber1"
@@ -171,32 +172,14 @@ export default function RegisterForm() {
                   icon={<MapPin className="w-4 h-4" />}
                 />
               </div>
-              <div className="grid grid-cols-1   md:grid-cols-2 gap-4">
-                <InputField
-                  label="Date of Birth"
-                  name="dateOfBirth"
-                  registerOptions={{ required: "Date of birth is required" }}
-                  type="date"
-                  icon={<Calendar className="w-4 h-4" />}
-                />
-                <SelectField
-                  label="Gender"
-                  name="gender"
-                  registerOptions={{ required: "Gender is required" }}
-                  options={[
-                    { value: "male", label: "Male" },
-                    { value: "female", label: "Female" },
-                    { value: "other", label: "Other" },
-                  ]}
-                  icon={<User className="w-4 h-4" />}
+              <div className="grid grid-cols-1 gap-4">
+                <TextareaField
+                  label="Bio"
+                  name="bio"
+                  placeholder="Tell us about yourself"
+                  icon={<FileText className="w-4 h-4" />}
                 />
               </div>
-              <TextareaField
-                label="Bio"
-                name="bio"
-                placeholder="Tell us about yourself"
-                icon={<FileText className="w-4 h-4" />}
-              />
             </div>
 
             {errorMessage && (
