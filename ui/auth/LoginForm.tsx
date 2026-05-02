@@ -10,89 +10,33 @@ import Form from "../../components/forms/Form";
 import InputField from "../../components/forms/InputField";
 import { useLoginMutation } from "../../services/redux/api/modules/authApi";
 import { authSchemas } from "../../zodSchemas/auth/auth.schema";
+import { toast } from "sonner";
 
 type LoginFormData = z.infer<typeof authSchemas.loginSchema>;
 
-function LoginFormFields() {
-  const { register } = useFormContext<LoginFormData>();
-  const [showPassword, setShowPassword] = useState(false);
-
-  return (
-    <>
-      <InputField
-        label="Email"
-        name="email"
-        registerOptions={{ required: "Invalid email address" }}
-        type="email"
-        placeholder="you@example.com"
-        icon={<Mail className="w-4 h-4" />}
-      />
-
-      <InputField
-        label="Password"
-        name="password"
-        registerOptions={{
-          required: "Password is required",
-        }}
-        type={showPassword ? "text" : "password"}
-        placeholder="••••••••"
-        icon={<Lock className="w-4 h-4" />}
-        rightIcon={
-          showPassword ? (
-            <EyeOff className="w-4 h-4" />
-          ) : (
-            <Eye className="w-4 h-4" />
-          )
-        }
-        onRightIconClick={() => setShowPassword(!showPassword)}
-      />
-
-      <div className="flex items-center justify-between text-xs">
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            {...register("rememberMe")}
-            className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
-          />
-          <span className="text-gray-300">Remember me</span>
-        </label>
-
-        <a href="/forgot-password" className="text-cyan-400 hover:text-cyan-300">
-          Forgot?
-        </a>
-      </div>
-    </>
-  );
-}
-
 export default function LoginForm() {
   const router = useRouter();
-  const [login, { isLoading, error }] = useLoginMutation();
+  const { register } = useForm<LoginFormData>();
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(data).unwrap();
-      router.push("/dashboard");
+      const res = await login(data).unwrap();
+      if (res?.success) {
+        router.push("/");
+        toast.success(res.message);
+      }
     } catch (err) {
-      console.error("Login failed:", err);
+      const error = err as any;
+      setErrorMessage(
+        error?.data?.message ||
+          error?.data ||
+          "Login failed. Please check your credentials.",
+      );
     }
   };
-
-  const getErrorMessage = (): string | null => {
-    if (!error) return null;
-    if (
-      typeof error === "object" &&
-      "data" in error &&
-      error.data &&
-      typeof error.data === "object" &&
-      "message" in error.data
-    ) {
-      return String(error.data.message);
-    }
-    return "Login failed. Please try again.";
-  };
-
-  const errorMessage = getErrorMessage();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a0e27] p-4 relative overflow-hidden">
@@ -122,15 +66,65 @@ export default function LoginForm() {
           <Form
             onSubmit={onSubmit}
             resolver={zodResolver(authSchemas.loginSchema)}
-            defaultValues={{ email: "", password: "", rememberMe: false }}
+            defaultValues={{
+              email: "superadmin@polytechnicedge.com",
+              password: "SuperAdmin@123",
+              rememberMe: false,
+            }}
           >
             <div className="space-y-4">
-              <LoginFormFields />
+              <InputField
+                label="Email"
+                name="email"
+                registerOptions={{ required: "Invalid email address" }}
+                type="email"
+                placeholder="you@example.com"
+                icon={<Mail className="w-4 h-4" />}
+              />
+
+              <InputField
+                label="Password"
+                name="password"
+                registerOptions={{
+                  required: "Password is required",
+                }}
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                icon={<Lock className="w-4 h-4" />}
+                rightIcon={
+                  showPassword ? (
+                    <EyeOff className="w-4 h-4" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )
+                }
+                onRightIconClick={() => setShowPassword(!showPassword)}
+              />
+
+              <div className="flex items-center justify-between text-xs">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    {...register("rememberMe")}
+                    className="w-4 h-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-500"
+                  />
+                  <span className="text-gray-300">Remember me</span>
+                </label>
+
+                <a
+                  href="/forgot-password"
+                  className="text-cyan-400 hover:text-cyan-300"
+                >
+                  Forgot?
+                </a>
+              </div>
             </div>
 
             {errorMessage && (
               <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
-                <p className="text-red-400 text-sm text-center">{errorMessage}</p>
+                <p className="text-red-400 text-sm text-center">
+                  {errorMessage}
+                </p>
               </div>
             )}
 
