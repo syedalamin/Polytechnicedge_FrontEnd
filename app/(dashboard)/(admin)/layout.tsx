@@ -1,7 +1,15 @@
+import Navbar from "@/components/layout/Navbar";
+import ProtectedRoute, { UserRole } from "@/providers/ProtectedRoute";
+
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <ProtectedRoute allowedRoles={["SUPER_ADMIN"] as UserRole[]}>
+      <Navbar />
+      {children}
+    </ProtectedRoute>
+  );
 }

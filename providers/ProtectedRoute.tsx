@@ -1,48 +1,67 @@
 "use client";
 
-import { useMeForAuth } from "@/services/graphql/user/userHook";
 import { useRouter } from "next/navigation";
-import { useEffect, ReactNode } from "react";
+import { useEffect, ReactNode, useState } from "react";
 
-enum UserRole {
-  SUPER_ADMIN,
-  STUDENT,
-  INSTRUCTOR,
-  ADMIN,
+export enum UserRole {
+  SUPER_ADMIN = "SUPER_ADMIN",
+  STUDENT = "STUDENT",
+  INSTRUCTOR = "INSTRUCTOR",
+  ADMIN = "ADMIN",
 }
+
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles: UserRole[]; 
+  allowedRoles: UserRole[];
+  redirectTo?: string;
 }
 
-const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-  const { data, loading, isAuthenticated } = useMeForAuth();
+function getUserFromCookie() {
+  try {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
+
+    if (!cookie) return null;
+
+    return JSON.parse(decodeURIComponent(cookie.split("=")[1]));
+  } catch {
+    return null;
+  }
+}
+
+const ProtectedRoute = ({
+  children,
+  allowedRoles,
+  redirectTo = "/",
+}: ProtectedRouteProps) => {
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    const userData = getUserFromCookie();
+
+    if (!userData) {
       router.replace("/login");
       return;
     }
 
-    if (!loading && data && !allowedRoles.includes(data.role as any)) {
-      router.replace("/");
+    if (!allowedRoles.includes(userData.role)) {
+      router.replace(redirectTo);
+
       return;
     }
-  }, [data, loading, isAuthenticated, router, allowedRoles]);
+
+    setUser(userData);
+    setLoading(false);
+  }, [router, allowedRoles, redirectTo]);
 
   if (loading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
+    return <div>Loading...</div>;
   }
 
-
-  if (isAuthenticated && data && allowedRoles.includes(data.role as any)) {
-    return <>{children}</>;
-  }
-  return null;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
