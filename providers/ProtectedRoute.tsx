@@ -36,7 +36,7 @@ const ProtectedRoute = ({
   redirectTo = "/",
 }: ProtectedRouteProps) => {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -53,7 +53,6 @@ const ProtectedRoute = ({
       return;
     }
 
-    setUser(userData);
     setLoading(false);
   }, [router, allowedRoles, redirectTo]);
 

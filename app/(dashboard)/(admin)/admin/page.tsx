@@ -1,8 +1,8 @@
 const AdminPage = () => {
   return (
-    <div className="w-screen h-screen bg-gray-100 w-full h-full bg-white p-4">
-      <h1>Admin Dashboard</h1>
-      <p>Welcome, Admin!</p>
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 p-4 text-black text-center">
+      <h1 className="text-2xl font-bold"> Admin Page</h1>
+      <p>Welcome, Admin Page !</p>
     </div>
   );
 };

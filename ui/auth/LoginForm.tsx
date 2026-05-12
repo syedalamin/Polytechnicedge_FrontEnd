@@ -25,12 +25,9 @@ export default function LoginForm() {
     try {
       const res = await loginMutation(data).unwrap();
       if (res?.success) {
-        // Store token if it exists in the response
-        if (res?.data?.token) {
-          localStorage.setItem("token", res.data.token);
-        }
+      
         toast.success("Login successful!");
-        router.push("/dashboard");
+        router.push("/");
       }
     } catch (err: any) {
       const errorMsg =

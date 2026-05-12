@@ -1,23 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import {
-  Menu,
-  X,
+
   Sparkles,
-  BookOpen,
+
   Users,
-  GraduationCap,
-  LayoutDashboard,
+
   Search,
-  ChevronDown,
+
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/admin", label: "Admin", icon: Users },
+  { href: "/instructor", label: "INSTRUCTOR", icon: Users },
 ];
 
 export default function Navbar() {
