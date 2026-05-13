@@ -1,4 +1,4 @@
-import Navbar from "@/components/layout/Navbar";
+import { DashboardDrawer } from "@/components/layout/DashboardDrawer";
 import ProtectedRoute, { UserRole } from "@/providers/ProtectedRoute";
 
 export default function AdminLayout({
@@ -8,7 +8,7 @@ export default function AdminLayout({
 }) {
   return (
     <ProtectedRoute allowedRoles={["SUPER_ADMIN", "ADMIN"] as UserRole[]}>
-      <Navbar />
+      <DashboardDrawer/>
       {children}
     </ProtectedRoute>
   );
