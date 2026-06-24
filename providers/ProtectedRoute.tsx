@@ -41,6 +41,7 @@ const ProtectedRoute = ({
 
   useEffect(() => {
     const userData = getUserFromCookie();
+    
 
     if (!userData) {
       router.replace("/login");
