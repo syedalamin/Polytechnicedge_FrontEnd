@@ -1,21 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import {
+import { Sparkles, Users, Search } from "lucide-react";
 
-  Sparkles,
-
-  Users,
-
-  Search,
-
-} from "lucide-react";
-import { useRouter } from "next/navigation";
+import { AuthStatus } from "./AuthStatus";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/admin", label: "Admin", icon: Users },
   { href: "/instructor", label: "INSTRUCTOR", icon: Users },
+  { href: "/student", label: "STUDENT", icon: Users },
 ];
 
 export default function Navbar() {
@@ -50,11 +44,10 @@ export default function Navbar() {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-3">
-            <button className="p-2 text-gray-300 hover:text-white rounded-lg hover:bg-white/5 transition-colors">
-              <Search className="w-5 h-5" />
-            </button>
+            
 
             <div className="h-6 w-px bg-white/10" />
+            <AuthStatus />
           </div>
         </div>
       </div>

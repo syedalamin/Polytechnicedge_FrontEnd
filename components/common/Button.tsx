@@ -25,7 +25,7 @@ export default function Button({
 
   const variants = {
     primary:
-      "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25",
+      "pointer-events-none bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25",
     secondary:
       "bg-white/10 text-white border border-white/20 hover:bg-white/20",
     ghost: "bg-transparent text-cyan-400 hover:bg-cyan-400/10",
@@ -39,7 +39,7 @@ export default function Button({
 
   return (
     <button
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className} `}
       disabled={disabled || loading}
       {...props}
     >

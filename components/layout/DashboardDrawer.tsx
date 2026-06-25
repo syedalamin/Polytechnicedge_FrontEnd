@@ -12,7 +12,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -24,16 +23,47 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
+import { useState } from "react";
+import { getCookie } from "@/utils/cookie";
 
-const navLinks = [
+type NavLink = { label: string; href: string; icon: any };
+
+const adminLinks: NavLink[] = [
   { label: "Home", href: "/", icon: LayoutDashboard },
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Create Admin", href: "/admin/create-admin", icon: Users },
   { label: "Category", href: "/admin/category", icon: BookOpen },
 ];
 
+const instructorLinks: NavLink[] = [
+  { label: "Instructor Dashboard", href: "/instructor", icon: LayoutDashboard },
+  { label: "My Courses", href: "/instructor/courses", icon: BookOpen },
+];
+
+const studentLinks: NavLink[] = [
+  { label: "Student Dashboard", href: "/student", icon: LayoutDashboard },
+  { label: "Enrolled Courses", href: "/student/my-courses", icon: BookOpen },
+];
+
 export function DashboardDrawer() {
   const pathname = usePathname();
+
+  let links: NavLink[] = [];
+  const cookieData = getCookie("user");
+  if (cookieData) {
+    const role = cookieData?.role;
+
+    if (role === "SUPER_ADMIN") {
+      links = adminLinks;
+    }
+    if (role === "ADMIN") {
+      links = adminLinks;
+    } else if (role === "INSTRUCTOR") {
+      links = instructorLinks;
+    } else if (role === "STUDENT") {
+      links = studentLinks;
+    }
+  }
 
   return (
     <TooltipProvider>
@@ -58,7 +88,7 @@ export function DashboardDrawer() {
           <SidebarGroup>
             <SidebarGroupContent>
               <SidebarMenu>
-                {navLinks.map((link) => {
+                {links.map((link) => {
                   const isActive = pathname === link.href;
                   const Icon = link.icon;
                   return (

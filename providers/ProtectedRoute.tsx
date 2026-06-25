@@ -1,5 +1,6 @@
 "use client";
 
+import { getCookie } from "@/utils/cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, ReactNode, useState } from "react";
 
@@ -16,19 +17,7 @@ interface ProtectedRouteProps {
   redirectTo?: string;
 }
 
-function getUserFromCookie() {
-  try {
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("user="));
-
-    if (!cookie) return null;
-
-    return JSON.parse(decodeURIComponent(cookie.split("=")[1]));
-  } catch {
-    return null;
-  }
-}
+ 
 
 const ProtectedRoute = ({
   children,
@@ -40,7 +29,7 @@ const ProtectedRoute = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userData = getUserFromCookie();
+    const userData = getCookie("user"); 
     
 
     if (!userData) {
