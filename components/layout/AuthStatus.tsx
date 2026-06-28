@@ -1,14 +1,16 @@
+"use client";
 import { getCookie } from "@/utils/cookie";
 import Link from "next/dist/client/link";
 import Button from "../common/Button";
 
 import { useMeForAuth } from "@/services/graphql/user/userHook";
 import LogoutButton from "../common/LogoutButton";
+ 
 
 export const AuthStatus = () => {
   const loginData = getCookie("loginData");
   const { data } = useMeForAuth();
-
+ 
   return (
     <div className="flex items-center gap-3">
       {loginData ? (

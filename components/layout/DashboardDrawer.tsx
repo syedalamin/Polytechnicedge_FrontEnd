@@ -37,14 +37,12 @@ const adminLinks: NavLink[] = [
 ];
 
 const instructorLinks: NavLink[] = [
+  { label: "Home", href: "/", icon: LayoutDashboard },
   { label: "Instructor Dashboard", href: "/instructor", icon: LayoutDashboard },
   { label: "My Courses", href: "/instructor/courses", icon: BookOpen },
 ];
 
-const studentLinks: NavLink[] = [
-  { label: "Student Dashboard", href: "/student", icon: LayoutDashboard },
-  { label: "Enrolled Courses", href: "/student/my-courses", icon: BookOpen },
-];
+
 
 export function DashboardDrawer() {
   const pathname = usePathname();
@@ -62,9 +60,7 @@ export function DashboardDrawer() {
       links = adminLinks;
     } else if (role === "INSTRUCTOR") {
       links = instructorLinks;
-    } else if (role === "STUDENT") {
-      links = studentLinks;
-    }
+    } 
   }
 
   

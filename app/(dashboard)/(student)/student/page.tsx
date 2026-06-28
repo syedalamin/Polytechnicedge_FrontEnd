@@ -1,10 +1,10 @@
-const StudentPage = () => {
+const MePage = () => {
   return (
-    <div className=" justify-center min-h-screen py-2 text-white" >
-      <h1>Student Dashboard</h1>
-      <p>Welcome, Student!</p>
+    <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 p-4 text-black text-center">
+      <h1 className="text-2xl font-bold"> My Profile</h1>
+      <p>Welcome, My Profile !</p>
     </div>
   );
 };
 
-export default StudentPage;
+export default MePage;
