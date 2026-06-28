@@ -3,16 +3,18 @@ import Link from "next/dist/client/link";
 import Button from "../common/Button";
 
 import { useMeForAuth } from "@/services/graphql/user/userHook";
+import LogoutButton from "../common/LogoutButton";
 
 export const AuthStatus = () => {
-  const user = getCookie("user");
+  const loginData = getCookie("loginData");
   const { data } = useMeForAuth();
 
   return (
     <div className="flex items-center gap-3">
-      {user ? (
+      {loginData ? (
         <>
           <span className="text-gray-300"> {data?.role}</span>
+          <LogoutButton />
         </>
       ) : (
         <>

@@ -29,15 +29,15 @@ const ProtectedRoute = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userData = getCookie("user"); 
+    const loginData = getCookie("loginData"); 
     
 
-    if (!userData) {
+    if (!loginData) {
       router.replace("/login");
       return;
     }
 
-    if (!allowedRoles.includes(userData.role)) {
+    if (!allowedRoles.includes(loginData.role)) {
       router.replace(redirectTo);
 
       return;

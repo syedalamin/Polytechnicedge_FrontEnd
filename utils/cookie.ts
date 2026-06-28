@@ -8,8 +8,17 @@ export function getCookie(name: string): any | null {
 
     if (!cookie) return null;
 
-    return JSON.parse(decodeURIComponent(cookie.split("=")[1]));
+    const rawValue = decodeURIComponent(cookie.split("=")[1]);
+
+    if (rawValue.startsWith("j:")) {
+      const parsedValue = JSON.parse(rawValue.substring(2));  
+     
+      return parsedValue;
+    }
+
+   
+    return rawValue;
   } catch {
     return null;
   }
-}
+} 

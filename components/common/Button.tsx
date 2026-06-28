@@ -21,11 +21,11 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed";
+    "font-semibold rounded-lg transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed";
 
   const variants = {
     primary:
-      "pointer-events-none bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25",
+      " bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25",
     secondary:
       "bg-white/10 text-white border border-white/20 hover:bg-white/20",
     ghost: "bg-transparent text-cyan-400 hover:bg-cyan-400/10",

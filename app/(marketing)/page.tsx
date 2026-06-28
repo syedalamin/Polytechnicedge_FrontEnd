@@ -9,7 +9,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-[#0a0e27]">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
+        <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
         <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl animate-blob" />
         <div className="absolute top-40 right-10 w-72 h-72 bg-purple-400/20 rounded-full blur-3xl animate-blob animation-delay-2000" />
         <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-400/20 rounded-full blur-3xl animate-blob animation-delay-4000" />
@@ -22,7 +22,7 @@ export default function HomePage() {
 
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
             Learn Without
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+            <span className="block text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400">
               Limits
             </span>
           </h1>
@@ -34,7 +34,7 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/courses"
-              className="px-8 py-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-2"
+              className="px-8 py-4 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all flex items-center justify-center gap-2"
             >
               Explore Courses
               <ChevronRight className="w-5 h-5" />
@@ -82,7 +82,7 @@ export default function HomePage() {
             {featuredCourses.map((course) => (
               <Link key={course.id} href={`/courses/${course.slug}`} className="group">
                 <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-400/50 transition-all">
-                  <div className="relative h-48 bg-gradient-to-br from-cyan-500/20 to-purple-500/20">
+                  <div className="relative h-48 bg-linear-to-br from-cyan-500/20 to-purple-500/20">
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Play className="w-16 h-16 text-white/30 group-hover:text-white/50 transition-colors" />
                     </div>
@@ -105,7 +105,7 @@ export default function HomePage() {
                     <p className="text-gray-400 text-sm mb-4">{course.shortDescription}</p>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400" />
+                        <div className="w-8 h-8 rounded-full bg-linear-to-br from-cyan-400 to-purple-400" />
                         <span className="text-sm text-gray-300">
                           {course.instructors[0]?.firstName} {course.instructors[0]?.lastName}
                         </span>
@@ -137,7 +137,7 @@ export default function HomePage() {
                 href={`/courses?category=${course.category.slug}`}
                 className="p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-cyan-400/50 transition-all group"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-cyan-400/20 to-purple-400/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 bg-linear-to-br from-cyan-400/20 to-purple-400/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <BookOpen className="w-6 h-6 text-cyan-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">{course.category.name}</h3>
@@ -157,7 +157,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {sampleInstructors.map((instructor) => (
               <div key={instructor.id} className="p-6 bg-white/5 border border-white/10 rounded-2xl text-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 mx-auto mb-4" />
+                <div className="w-24 h-24 rounded-full bg-linear-to-br from-cyan-400 to-purple-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-white mb-1">
                   {instructor.firstName} {instructor.lastName}
                 </h3>
@@ -177,12 +177,12 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-white/10 rounded-3xl p-12">
+        <div className="max-w-4xl mx-auto text-center bg-linear-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-white/10 rounded-3xl p-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Start Learning?</h2>
           <p className="text-xl text-gray-300 mb-8">Join thousands of students already learning on PolytechnicEdge</p>
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all"
           >
             Get Started Now
             <ChevronRight className="w-5 h-5" />

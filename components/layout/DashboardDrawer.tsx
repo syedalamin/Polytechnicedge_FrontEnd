@@ -4,7 +4,6 @@ import {
   LayoutDashboard,
   Users,
   BookOpen,
-  LogOut,
   Sparkles,
 } from "lucide-react";
 import {
@@ -23,8 +22,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
-import { useState } from "react";
+
 import { getCookie } from "@/utils/cookie";
+
+import LogoutButton from "../common/LogoutButton";
 
 type NavLink = { label: string; href: string; icon: any };
 
@@ -47,11 +48,12 @@ const studentLinks: NavLink[] = [
 
 export function DashboardDrawer() {
   const pathname = usePathname();
+ 
 
   let links: NavLink[] = [];
-  const cookieData = getCookie("user");
-  if (cookieData) {
-    const role = cookieData?.role;
+  const loginData = getCookie("loginData");
+  if (loginData) {
+    const role = loginData?.role;
 
     if (role === "SUPER_ADMIN") {
       links = adminLinks;
@@ -65,6 +67,8 @@ export function DashboardDrawer() {
     }
   }
 
+  
+
   return (
     <TooltipProvider>
       <SidebarHeader className="bg-[#0a0e27] border-b border-white/10 p-4 md:hidden">
@@ -73,11 +77,11 @@ export function DashboardDrawer() {
       <Sidebar collapsible="icon" className=" bg-[#0a0e27] ">
         <SidebarHeader className="p-4    ">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/25">
+            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/25">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div className="group-data-[collapsible=icon]:hidden">
-              <span className="block text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 leading-tight">
+              <span className="block text-sm font-bold text-transparent bg-clip-text bg-linear-to-br from-cyan-400 via-purple-400 to-pink-400 leading-tight">
                 Polytechnic Edge
               </span>
             </div>
@@ -100,7 +104,7 @@ export function DashboardDrawer() {
                         className={cn(
                           "h-9 text-sm font-medium rounded-lg transition-all duration-200  my-1 ",
                           isActive
-                            ? "bg-gradient-to-r from-cyan-400/15 via-purple-500/15 to-pink-500/15 text-white border border-white/10 shadow-[0_0_12px_-4px_rgba(168,85,247,0.3)]"
+                            ? "bg-linear-to-br from-cyan-400/15 via-purple-500/15 to-pink-500/15 text-white border border-white/10 shadow-[0_0_12px_-4px_rgba(168,85,247,0.3)]"
                             : "text-white/50 hover:text-white hover:bg-white/[0.07]",
                         )}
                       >
@@ -125,17 +129,11 @@ export function DashboardDrawer() {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          <div className="mx-4 my-3 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent group-data-[collapsible=icon]:hidden" />
+          <div className="mx-4 my-3 h-px bg-linear-to-r  from-transparent via-white/10 to-transparent group-data-[collapsible=icon]:hidden" />
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-white/[0.03] p-4">
-          <SidebarMenuButton
-            tooltip="Logout"
-            className="h-9 text-sm font-medium rounded-lg text-red-400/70 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Logout</span>
-          </SidebarMenuButton>
+        <SidebarFooter className="border-t border-white/3 p-4">
+          <LogoutButton/>
         </SidebarFooter>
       </Sidebar>
     </TooltipProvider>
