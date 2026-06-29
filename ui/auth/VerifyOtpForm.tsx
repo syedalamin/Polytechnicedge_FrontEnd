@@ -24,6 +24,7 @@ export default function VerifyOtpForm() {
   const [email, setEmail] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [isChecking, setIsChecking] = useState(true);
 
   const [verifyOtpMutation, { isLoading }] =
     useVerifyEmailOtpAndLoginMutation();
@@ -34,6 +35,7 @@ export default function VerifyOtpForm() {
     const storedEmail = localStorage.getItem("otp_email");
     if (storedEmail) {
       setEmail(storedEmail);
+      setIsChecking(false);
     } else {
       router.push("/register");
     }
@@ -78,6 +80,10 @@ export default function VerifyOtpForm() {
       toast.error(err?.data?.message || "Failed to resend OTP.");
     }
   };
+
+  if(isChecking) {
+    return null;  
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a0e27] p-4 relative overflow-hidden">

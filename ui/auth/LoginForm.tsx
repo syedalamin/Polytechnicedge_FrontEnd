@@ -25,16 +25,14 @@ export default function LoginForm() {
     try {
       const res = await loginMutation(data).unwrap();
 
-      if (res?.success) {
-        console.log("Login response:", res);
+      if (res?.success && res?.data?.resendOtp) {
+        localStorage.setItem("otp_email", res?.data?.email);
+        router.push("/verify-otp");
+      } else if (res?.success) {
         toast.success("Login successful!");
         router.push("/");
       }
     } catch (err: any) {
-      if (err?.data?.errorDetails?.resendOtp) {
-        localStorage.setItem("otp_email", err?.data?.errorDetails?.email);
-        router.push("/verify-otp");
-      }
       const errorMsg =
         err?.data?.message || err?.data || "Login failed. Please try again.";
       setErrorMessage(errorMsg);
