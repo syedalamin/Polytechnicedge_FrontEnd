@@ -1,36 +1,41 @@
 "use client";
-
 import Form from "@/components/forms/Form";
 import InputField from "@/components/forms/InputField";
 import GradientButton from "@/components/shared/GradientButton";
-import { useChangePasswordMutation } from "@/services/redux/api/modules/authApi";
+import { useResetPasswordMutation } from "@/services/redux/api/modules/authApi";
 import { authSchemas } from "@/zodSchemas/auth/auth.schema";
-
-import { ArrowRight, Eye, EyeOff, Lock, Mail, Sparkles } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ArrowRight, Eye, EyeOff, Lock, Sparkles } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 import z from "zod";
 
-type ChangePasswordFormData  = z.infer<typeof authSchemas.changePasswordSchema>;
+type ResetPasswordFormData = z.infer<typeof authSchemas.resetPasswordSchema>;
 
-export default function ChangePasswordForm() {
+export default function ResetPasswordForm() {
   const router = useRouter();
-  const [showOldPassword, setShowOldPassword] = useState(false);
+  const searchParams = useSearchParams();
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [changePassword, { isLoading }] = useChangePasswordMutation();
-  const onSubmit = async (data: ChangePasswordFormData) => {
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+
+  const onSubmit = async (data: ResetPasswordFormData) => {
     try {
-      const res = await changePassword(data).unwrap();
+      const token = searchParams.get("token");
+      if (!token) {
+        toast.error("Token is missing. Please check your reset password link.");
+      }
+
+      const payload = { ...data, token };
+
+      const res = await resetPassword(payload).unwrap();
+
       if (res?.success) {
-        toast.success("Password changed successfully!");
-        router.refresh();
-        router.push("/");
+        toast.success("Password reset successful!");
+        router.push("/login");
       }
     } catch (err: any) {
-      const errorMsg =
-        err?.data?.message || err?.data || "Login failed. Please try again.";
+      const errorMsg = err?.data?.message || err?.data;
       setErrorMessage(errorMsg);
       toast.error(errorMsg);
     }
@@ -54,31 +59,15 @@ export default function ChangePasswordForm() {
               </div>
             </div>
             <h1 className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400">
-              Change Password
+              Reset Password
             </h1>
             <p className="text-gray-300 text-sm">
-              change your password to continue to PolytechnicEdge
+              reset your password to continue to PolytechnicEdge
             </p>
           </div>
 
           <Form onSubmit={onSubmit}>
             <div className="space-y-4">
-              <InputField
-                label="Old Password"
-                name="oldPassword"
-                type={showOldPassword ? "text" : "password"}
-                placeholder="••••••••"
-                icon={<Lock className="w-4 h-4" />}
-                rightIcon={
-                  showOldPassword ? (
-                    <EyeOff className="w-4 h-4" />
-                  ) : (
-                    <Eye className="w-4 h-4" />
-                  )
-                }
-                onRightIconClick={() => setShowOldPassword(!showOldPassword)}
-                registerOptions={{ required: "Old password is required" }}
-              />
               <InputField
                 label="New Password"
                 name="newPassword"
@@ -95,6 +84,7 @@ export default function ChangePasswordForm() {
                 onRightIconClick={() => setShowNewPassword(!showNewPassword)}
                 registerOptions={{ required: "New password is required" }}
               />
+
               {errorMessage && (
                 <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
                   <p className="text-red-400 text-sm text-center">
@@ -103,8 +93,8 @@ export default function ChangePasswordForm() {
                 </div>
               )}
 
-              <GradientButton isLoading={isLoading} >
-                Change Password
+              <GradientButton isLoading={isLoading}>
+                Reset Password
                 <ArrowRight className="w-4 h-4 inline-block ml-2" />
               </GradientButton>
             </div>

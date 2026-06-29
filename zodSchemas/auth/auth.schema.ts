@@ -70,7 +70,6 @@ const forgetPasswordSchema = z.object({
 
 const resetPasswordSchema = z.object({
   body: z.object({
-    token: z.string().min(1, { message: "Token is required" }),
     newPassword: z
       .string()
       .min(6, { message: "New password must be at least 6 characters" }),
