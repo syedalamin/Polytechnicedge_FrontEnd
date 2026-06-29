@@ -16,7 +16,7 @@ export default function GradientButton({
   return (
     <button
       disabled={disabled || isLoading}
-      className={`w-full py-3 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:brightness-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`w-full py-3 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:brightness-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       {...props}
     >
       {isLoading ? (
