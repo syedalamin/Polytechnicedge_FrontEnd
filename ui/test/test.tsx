@@ -1,10 +1,16 @@
 "use client";
 
-import { useMeForAuth } from "@/services/graphql/user/userHook";
+import GlassWrapper from "@/components/ui/GlassWrapperProps";
 
-
+ 
 export const Test = () => {
-   const {data, isAuthenticated} = useMeForAuth();
-   console.log("User from useMeForAuth hook:", data);
-  return <></>;
+ 
+  return (
+    <GlassWrapper>
+      <div>
+        <h1>Test Component</h1>
+        <p>This is a test component for the Polytechnicedge FrontEnd.</p>
+      </div>
+    </GlassWrapper>
+  );
 };

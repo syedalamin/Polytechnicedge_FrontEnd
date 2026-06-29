@@ -7,6 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   children: ReactNode;
+  loadingIcTe?: string | ReactNode;
 }
 
 export default function Button({
@@ -18,6 +19,7 @@ export default function Button({
   children,
   className = "",
   disabled,
+  loadingIcTe,
   ...props
 }: ButtonProps) {
   const baseStyles =
@@ -25,10 +27,11 @@ export default function Button({
 
   const variants = {
     primary:
-      " bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25",
+      "bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white hover:shadow-lg hover:shadow-purple-500/25",
     secondary:
-      "bg-white/10 text-white border border-white/20 hover:bg-white/20",
-    ghost: "bg-transparent text-cyan-400 hover:bg-cyan-400/10",
+      "inline-flex items-center  text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-400 font-semibold hover:brightness-125 transition-all   ",
+    ghost:
+      "flex items-center gap-2 text-gray-400 hover:text-white transition-colors mx-auto ",
   };
 
   const sizes = {
@@ -44,7 +47,11 @@ export default function Button({
       {...props}
     >
       {loading ? (
-        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        loadingIcTe ? (
+          loadingIcTe
+        ) : (
+          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        )
       ) : (
         <>
           {leftIcon && <span className="inline-flex">{leftIcon}</span>}

@@ -1,5 +1,6 @@
+import LoginForm from "@/ui/auth/LoginForm";
 import type { Metadata } from "next";
-import LoginForm from "../../../ui/auth/LoginForm";
+ 
 
 export const metadata: Metadata = {
   title: "Login - PolytechnicEdge",

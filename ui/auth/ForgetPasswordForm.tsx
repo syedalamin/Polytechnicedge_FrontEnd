@@ -1,11 +1,13 @@
 "use client";
+import Button from "@/components/common/Button";
 import Form from "@/components/forms/Form";
 import InputField from "@/components/forms/InputField";
-import GradientButton from "@/components/shared/GradientButton";
+
+import GlassWrapper from "@/components/ui/GlassWrapperProps";
 import { useForgetPasswordMutation } from "@/services/redux/api/modules/authApi";
 import { authSchemas } from "@/zodSchemas/auth/auth.schema";
-import { ArrowRight,Lock, Sparkles } from "lucide-react";
- 
+import { ArrowRight, Lock, Sparkles } from "lucide-react";
+
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod";
@@ -13,8 +15,6 @@ import z from "zod";
 type ForgetPasswordFormData = z.infer<typeof authSchemas.forgetPasswordSchema>;
 
 export default function ForgetPasswordForm() {
-   
-  
   const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
   const [forgetPassword, { isLoading }] = useForgetPasswordMutation();
@@ -27,7 +27,6 @@ export default function ForgetPasswordForm() {
         toast.success("Password reset email sent successfully!");
         setMessage(res?.message);
       }
-      
     } catch (err: any) {
       const errorMsg = err?.data?.message || err?.data;
       setErrorMessage(errorMsg);
@@ -36,65 +35,43 @@ export default function ForgetPasswordForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0e27] p-4 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute top-40 left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
-      </div>
+    <GlassWrapper
+      title="Forget Password"
+      subtitle="Enter your email to reset your password"
+      maxWidthClass="max-w-sm md:max-w-md "
+    >
+      <Form onSubmit={onSubmit}>
+        <div className="space-y-4">
+          <InputField
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            icon={<Lock className="w-4 h-4" />}
+            registerOptions={{ required: "Email is required" }}
+          />
 
-      <div className="w-full max-w-md relative z-10">
-        <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-8 md:p-10 space-y-6 border border-white/20">
-          <div className="text-center space-y-2">
-            <div className="relative inline-block">
-              <div className="absolute inset-0 bg-linear-to-r from-cyan-400 to-purple-400 rounded-xl blur-lg opacity-50 animate-pulse" />
-              <div className="relative w-14 h-14 bg-linear-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
-                <Sparkles className="w-7 h-7 text-white" />
-              </div>
+          {errorMessage && (
+            <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
+              <p className="text-red-400 text-sm text-center">{errorMessage}</p>
             </div>
-            <h1 className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400">
-              Forget Password
-            </h1>
-            <p className="text-gray-300 text-sm">
-              Enter your email to reset your password
-            </p>
-          </div>
+          )}
 
-          <Form onSubmit={onSubmit}>
-            <div className="space-y-4">
-              <InputField
-                label="Email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
-                icon={<Lock className="w-4 h-4" />}
-                registerOptions={{ required: "Email is required" }}
-              />
-
-              {errorMessage && (
-                <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3">
-                  <p className="text-red-400 text-sm text-center">
-                    {errorMessage}
-                  </p>
-                </div>
-              )}
-
-              {message && (
-                <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-3">
-                  <p className="text-green-400 text-sm text-center">
-                    {message}
-                  </p>
-                </div>
-              )}
-
-              <GradientButton isLoading={isLoading}>
-                Forget Password
-                <ArrowRight className="w-4 h-4 inline-block ml-2" />
-              </GradientButton>
+          {message && (
+            <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-3">
+              <p className="text-green-400 text-sm text-center">{message}</p>
             </div>
-          </Form>
+          )}
+
+          <Button
+            loading={isLoading}
+            className="w-full"
+            rightIcon={<ArrowRight className="w-4 h-4 inline-block ml-2" />}
+          >
+            Forget Password
+          </Button>
         </div>
-      </div>
-    </div>
+      </Form>
+    </GlassWrapper>
   );
 }

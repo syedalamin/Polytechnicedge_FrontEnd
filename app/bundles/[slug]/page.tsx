@@ -72,7 +72,7 @@ export default function BundleDetailPage({ params }: { params: { slug: string } 
                 {bundle.items.flatMap(item => 
                   item.course.whatYouWillLearn?.map((skill: string, idx: number) => (
                     <div key={`${item.course.id}-${idx}`} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                      <Check className="w-5 h-5 text-cyan-400 shrink-0 mt-0.5" />
                       <span className="text-gray-300">{skill}</span>
                     </div>
                   )) || []
@@ -99,7 +99,7 @@ export default function BundleDetailPage({ params }: { params: { slug: string } 
                 )}
               </div>
 
-              <button className="w-full px-6 py-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all mb-4">
+              <button className="w-full px-6 py-4 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all mb-4">
                 Enroll Now
               </button>
 
@@ -139,8 +139,8 @@ export default function BundleDetailPage({ params }: { params: { slug: string } 
               <div key={item.course.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-cyan-400/30 transition-all group">
                 <div className="flex flex-col md:flex-row">
                   {/* Thumbnail */}
-                  <div className="md:w-72 flex-shrink-0 relative">
-                    <div className="h-48 md:h-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                  <div className="md:w-72 shrink-0 relative">
+                    <div className="h-48 md:h-full bg-linear-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center">
                       {item.course.thumbnail ? (
                         <img 
                           src={item.course.thumbnail} 
@@ -168,7 +168,7 @@ export default function BundleDetailPage({ params }: { params: { slug: string } 
                       >
                         {item.course.title}
                       </Link>
-                      <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="flex items-center gap-2 shrink-0">
                         <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">
                           {item.course.level}
                         </span>
@@ -198,7 +198,7 @@ export default function BundleDetailPage({ params }: { params: { slug: string } 
 
                     {item.course.instructors && item.course.instructors[0] && (
                       <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/10">
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 flex-shrink-0" />
+                        <div className="w-6 h-6 rounded-full bg-linear-to-br from-cyan-400 to-purple-400 shrink-0" />
                         <span className="text-sm text-gray-300">
                           {item.course.instructors[0].firstName} {item.course.instructors[0].lastName}
                         </span>
@@ -217,7 +217,7 @@ export default function BundleDetailPage({ params }: { params: { slug: string } 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allInstructors.map((instructor) => (
               <div key={instructor.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 mx-auto mb-4" />
+                <div className="w-20 h-20 rounded-full bg-linear-to-br from-cyan-400 to-purple-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-white mb-1">
                   {instructor.firstName} {instructor.lastName}
                 </h3>
