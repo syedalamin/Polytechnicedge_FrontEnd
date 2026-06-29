@@ -24,12 +24,17 @@ export default function LoginForm() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const res = await loginMutation(data).unwrap();
+
       if (res?.success) {
-      
+        console.log("Login response:", res);
         toast.success("Login successful!");
         router.push("/");
       }
     } catch (err: any) {
+      if (err?.data?.errorDetails?.resendOtp) {
+        localStorage.setItem("otp_email", err?.data?.errorDetails?.email);
+        router.push("/verify-otp");
+      }
       const errorMsg =
         err?.data?.message || err?.data || "Login failed. Please try again.";
       setErrorMessage(errorMsg);

@@ -35,6 +35,7 @@ export default function RegisterForm() {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const res = await registerMutation(data).unwrap();
+      console.log("Register response:", res);
       if (res?.success) {
         const userEmail = res?.data?.email || data.email;
         localStorage.setItem("otp_email", userEmail);

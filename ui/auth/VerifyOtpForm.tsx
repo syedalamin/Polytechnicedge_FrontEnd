@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { Mail, KeyRound, RefreshCw, ArrowLeft } from "lucide-react";
+import { KeyRound, RefreshCw, ArrowLeft } from "lucide-react";
 import Form from "../../components/forms/Form";
 import InputField from "../../components/forms/InputField";
 import {
@@ -15,7 +15,9 @@ import {
 import { authSchemas } from "../../zodSchemas/auth/auth.schema";
 import { toast } from "sonner";
 
-type VerifyOtpFormData = z.infer<typeof authSchemas.verifyEmailOtpAndLoginSchema>;
+type VerifyOtpFormData = z.infer<
+  typeof authSchemas.verifyEmailOtpAndLoginSchema
+>;
 
 export default function VerifyOtpForm() {
   const router = useRouter();
@@ -70,6 +72,7 @@ export default function VerifyOtpForm() {
         toast.success("OTP resent successfully!");
         setResendDisabled(true);
         setCountdown(60);
+        
       }
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to resend OTP.");
@@ -88,12 +91,12 @@ export default function VerifyOtpForm() {
         <div className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-8 space-y-6 border border-white/20">
           <div className="text-center space-y-2">
             <div className="relative inline-block">
-              <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 rounded-xl blur-lg opacity-50 animate-pulse" />
-              <div className="relative w-14 h-14 bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="absolute inset-0 bg-linear-to-r from-cyan-400 to-purple-400 rounded-xl blur-lg opacity-50 animate-pulse" />
+              <div className="relative w-14 h-14 bg-linear-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
                 <KeyRound className="w-7 h-7 text-white" />
               </div>
             </div>
-            <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+            <h1 className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400">
               Verify Your Email
             </h1>
             <p className="text-gray-300 text-sm">
@@ -121,7 +124,7 @@ export default function VerifyOtpForm() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:brightness-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-3 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white font-semibold rounded-lg hover:brightness-110 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? "Verifying..." : "Verify & Login"}
               </button>
@@ -133,7 +136,7 @@ export default function VerifyOtpForm() {
             <button
               onClick={handleResendOtp}
               disabled={resendDisabled || resendLoading}
-              className="inline-flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 font-semibold hover:brightness-125 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-400 font-semibold hover:brightness-125 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <RefreshCw className="w-4 h-4 text-cyan-400" />
               {resendLoading

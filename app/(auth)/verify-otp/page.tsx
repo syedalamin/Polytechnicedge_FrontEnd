@@ -1,4 +1,4 @@
-"use client";
+
 
 import VerifyOtpForm from "@/ui/auth/VerifyOtpForm";
 
