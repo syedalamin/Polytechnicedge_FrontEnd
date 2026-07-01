@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  LayoutDashboard,
-  Users,
-  BookOpen,
-  Sparkles,
-} from "lucide-react";
+import { LayoutDashboard, Users, BookOpen, Sparkles } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -26,6 +21,7 @@ import { cn } from "@/lib/utils/cn";
 import { getCookie } from "@/utils/cookie";
 
 import LogoutButton from "../common/LogoutButton";
+import MainIcon from "../common/MainIcon";
 
 type NavLink = { label: string; href: string; icon: any };
 
@@ -42,11 +38,8 @@ const instructorLinks: NavLink[] = [
   { label: "My Courses", href: "/instructor/courses", icon: BookOpen },
 ];
 
-
-
 export function DashboardDrawer() {
   const pathname = usePathname();
- 
 
   let links: NavLink[] = [];
   const loginData = getCookie("loginData");
@@ -60,10 +53,8 @@ export function DashboardDrawer() {
       links = adminLinks;
     } else if (role === "INSTRUCTOR") {
       links = instructorLinks;
-    } 
+    }
   }
-
-  
 
   return (
     <TooltipProvider>
@@ -73,9 +64,7 @@ export function DashboardDrawer() {
       <Sidebar collapsible="icon" className=" bg-[#0a0e27] ">
         <SidebarHeader className="p-4    ">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-cyan-400 via-purple-500 to-pink-500 flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/25">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
+            <MainIcon />
             <div className="group-data-[collapsible=icon]:hidden">
               <span className="block text-sm font-bold text-transparent bg-clip-text bg-linear-to-br from-cyan-400 via-purple-400 to-pink-400 leading-tight">
                 Polytechnic Edge
@@ -129,7 +118,7 @@ export function DashboardDrawer() {
         </SidebarContent>
 
         <SidebarFooter className="border-t border-white/3 p-4">
-          <LogoutButton/>
+          <LogoutButton />
         </SidebarFooter>
       </Sidebar>
     </TooltipProvider>

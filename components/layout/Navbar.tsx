@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Sparkles, Users } from "lucide-react";
 
 import { AuthStatus } from "./AuthStatus";
+import MainIcon from "../common/MainIcon";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,9 +20,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-linear-to-br from-cyan-400 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
+            <MainIcon />
             <span className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400">
               PolytechnicEdge
             </span>
@@ -44,8 +43,6 @@ export default function Navbar() {
 
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-3">
-            
-
             <div className="h-6 w-px bg-white/10" />
             <AuthStatus />
           </div>
