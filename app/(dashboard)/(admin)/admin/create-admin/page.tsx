@@ -1,10 +1,12 @@
-const CreateAdminPage = () => {
-  return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 p-4 text-black text-center">
-      <h1 className="text-2xl font-bold">Create Admin Page</h1>
-      <p>Welcome, Create Admin Page !</p>
-    </div>
-  );
-};
+ 
+ 
 
-export default CreateAdminPage;
+export default function CreateAdminPage() {
+   
+   return (
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+         <h1 className="text-4xl font-bold mb-4">Create Admin Page</h1>
+         <p className="text-lg text-gray-600">This is the page to create a new admin user.</p>
+      </div>
+   );
+}
