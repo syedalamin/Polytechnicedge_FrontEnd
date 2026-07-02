@@ -4,7 +4,7 @@ import Button from "@/components/common/Button";
 import Form from "@/components/forms/Form";
 import InputField from "@/components/forms/InputField";
 
-import GlassWrapper from "@/components/ui/GlassWrapperProps";
+import GlassWrapper from "@/components/common/GlassWrapperProps";
 import { useChangePasswordMutation } from "@/services/redux/api/modules/authApi";
 import { authSchemas } from "@/zodSchemas/auth/auth.schema";
 

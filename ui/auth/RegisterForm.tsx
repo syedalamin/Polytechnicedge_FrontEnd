@@ -21,7 +21,7 @@ import { authSchemas } from "../../zodSchemas/auth/auth.schema";
 import { toast } from "sonner";
 
 import TextareaField from "@/components/forms/TextareaField";
-import GlassWrapper from "@/components/ui/GlassWrapperProps";
+import GlassWrapper from "@/components/common/GlassWrapperProps";
 import Link from "next/link";
 import Button from "@/components/common/Button";
 
@@ -181,8 +181,6 @@ export default function RegisterForm() {
           Create Account
         </Button>
       </Form>
-
-       
 
       <p className="text-center text-gray-400 text-xs pt-3 border-t border-white/10">
         Already have an account?{" "}

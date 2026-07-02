@@ -12,7 +12,7 @@ import { useLoginMutation } from "../../services/redux/api/modules/authApi";
 import { authSchemas } from "../../zodSchemas/auth/auth.schema";
 import { toast } from "sonner";
 
-import GlassWrapper from "@/components/ui/GlassWrapperProps";
+import GlassWrapper from "@/components/common/GlassWrapperProps";
 import Button from "@/components/common/Button";
 import Link from "next/link";
 

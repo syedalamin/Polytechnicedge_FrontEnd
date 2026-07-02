@@ -14,7 +14,7 @@ export default function GlassCard({
 }: GlassCardProps) {
  
   const paddingStyles = {
-    xs: "p-1 sm:p-2 rounded-sm",  
+    xs: "p-1 sm:p-2 rounded-md",  
     sm: "p-2 sm:p-3 rounded-md",
     md: "p-3 sm:p-4 rounded-lg",
     lg: "p-5 md:p-6 rounded-xl",

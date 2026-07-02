@@ -1,12 +1,20 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost"| "outline";
-  size?: "sm" | "md" | "lg";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "ghost"
+    | "outline"
+    | "edit"
+    | "remove"
+    | "more";
+  size?: "sm" | "md" | "lg" | "action";
   loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-  children: ReactNode;
+  centerIcon?: ReactNode;
+  children?: ReactNode;
   loadingIcTe?: string | ReactNode;
 }
 
@@ -16,6 +24,7 @@ export default function Button({
   loading = false,
   leftIcon,
   rightIcon,
+  centerIcon,
   children,
   className = "",
   disabled,
@@ -35,12 +44,18 @@ export default function Button({
 
     outline:
       "flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all text-xs sm:text-sm",
+
+    edit: "p-1 text-gray-400 hover:text-cyan-400 transition-colors rounded-lg hover:bg-white/10 ",
+    remove:
+      "p-1 text-gray-400 hover:text-red-400 transition-colors rounded-lg hover:bg-white/10",
+    more: "p-1 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/10",
   };
 
   const sizes = {
     sm: "py-1.5 px-2.5 text-xs md:py-2 md:px-3 md:text-sm",
     md: "py-2 px-3 text-xs lg:py-2.5 lg:px-4 lg:text-sm",
     lg: "py-2.5 px-4 text-sm md:py-3 md:px-6 md:text-base lg:text-lg",
+    action: "p-2",
   };
 
   return (
@@ -57,9 +72,15 @@ export default function Button({
         )
       ) : (
         <>
-          {leftIcon && <span className="inline-flex">{leftIcon}</span>}
-          <span>{children}</span>
-          {rightIcon && <span className="inline-flex">{rightIcon}</span>}
+          {centerIcon ? (
+            <span className="inline-flex">{centerIcon}</span>
+          ) : (
+            <>
+              {leftIcon && <span className="inline-flex">{leftIcon}</span>}
+              <span>{children}</span>
+              {rightIcon && <span className="inline-flex">{rightIcon}</span>}
+            </>
+          )}
         </>
       )}
     </button>

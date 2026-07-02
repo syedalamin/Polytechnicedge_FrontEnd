@@ -1,5 +1,5 @@
 import Text from "@/components/common/Text";
-import GlassCard from "@/components/ui/GlassCard";
+import GlassCard from "@/components/common/GlassCard";
 import { Shield, ShieldAlert } from "lucide-react";
 
 const RoleStatus = () => {
@@ -22,10 +22,7 @@ const RoleStatus = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
       {roleStats.map((rs) => (
         <GlassCard paddingSize="xs">
-          <div
-            key={rs.label}
-            className="   flex items-center gap-2 sm:gap-3"
-          >
+          <div key={rs.label} className="   flex items-center gap-2 sm:gap-3">
             <div
               className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-linear-to-br ${rs.color} flex items-center justify-center shadow-lg shrink-0`}
             >
