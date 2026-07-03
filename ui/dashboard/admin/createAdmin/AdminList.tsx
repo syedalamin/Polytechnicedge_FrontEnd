@@ -4,7 +4,7 @@ import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import GridTable, { TableColumn } from "@/components/common/GridTable";
 import { Edit, Globe, MoreVertical, Shield, Trash2 } from "lucide-react";
-import { useState } from "react";
+
 import Button from "@/components/common/Button";
 
 interface AdminType {
@@ -18,8 +18,6 @@ interface AdminType {
   sessions: number;
 }
 const AdminList = () => {
-  const [selectedAdmin, setSelectedAdmin] = useState<string | null>(null);
-
   const allAdmins: AdminType[] = [
     {
       name: "John Doe",
