@@ -32,7 +32,7 @@ export default function GridTable<T>({
   };
 
   return (
-    <div className="w-full overflow-x-auto overflow-hidden">
+    <div className="w-full overflow-x-auto overflow-hidden max-h-80 overflow-y-auto">
       <div className="min-w-3xl">
         <div
           className={`grid ${gridLayoutClass} border-b border-white/5 bg-white/2 items-center py-3`}
@@ -49,7 +49,6 @@ export default function GridTable<T>({
         <div className="divide-y divide-white/5">
           {isLoading ? (
             <div className="text-center py-16 flex flex-col items-center justify-center gap-3">
-         
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
               <Text variant="body" color="dimmed" size="md">
                 Loading data, please wait...
