@@ -7,11 +7,12 @@ import { Edit, Globe, MoreVertical, Shield, Trash2 } from "lucide-react";
 
 import Button from "@/components/common/Button";
 import { useAllAdmins } from "@/services/graphql/admin/adminHook";
+import Image from "next/image";
+import RoleStatus from "./RoleStatus";
 
 const AdminList = () => {
-  const { admins, meta, loading, error } = useAllAdmins();
+  const { admins, meta, loading } = useAllAdmins();
 
-  // console.log("All Admins Data:", admins);
 
   const statusConfig: Record<string, { dot: string; label: string }> = {
     active: { dot: "bg-emerald-400", label: "Active" },
@@ -30,9 +31,17 @@ const AdminList = () => {
       className: "pl-6 flex items-center gap-3 min-w-0",
       accessor: (admin) => (
         <>
-          <div className="w-9 h-9 rounded-full bg-linear-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-            {admin.initials}
-          </div>
+          {admin.profileImage ? (
+            <Image
+              alt="profileImage"
+              src={admin.profileImage}
+              width={100}
+              height={100}
+              className="w-9 h-9 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-9 h-9 rounded-full bg-linear-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0"></div>
+          )}
           <div className="truncate">
             <Text
               variant="body"
@@ -88,6 +97,19 @@ const AdminList = () => {
         </div>
       ),
     },
+
+    {
+      header: "Contact",
+      className: "px-4 flex items-center gap-2",
+      accessor: (admin) => (
+        <div className="flex items-center gap-2">
+          <Text variant="body" color="dimmed" size="sm">
+            {admin.contactNumber1 ? admin.contactNumber1 : "No Number"}
+          </Text>
+        </div>
+      ),
+    },
+
     {
       header: "Actions",
       className: "pr-6 text-right",
@@ -120,31 +142,35 @@ const AdminList = () => {
   ];
 
   return (
-    <GlassCard paddingSize="md">
-      <div className="p-4 sm:p-5 md:p-6 border-b border-white/5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <Text color="white" variant="body" size="md">
-              All Administrators & page {meta?.totalPages}
-            </Text>
-          </div>
-          <div>
-            <Text color="dimmed" variant="caption" size="sm">
-              {meta?.total} total
-            </Text>
+    <>
+      <RoleStatus admins={admins} />
+
+      <GlassCard paddingSize="md">
+        <div className="p-4 sm:p-5 md:p-6 border-b border-white/5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <Text color="white" variant="body" size="md">
+                All Administrators & page {meta?.totalPages}
+              </Text>
+            </div>
+            <div>
+              <Text color="dimmed" variant="caption" size="sm">
+                {meta?.total} total
+              </Text>
+            </div>
           </div>
         </div>
-      </div>
 
-      <GridTable
-        data={admins}
-        columns={columns}
-        rowKeyAccessor="id"
-        gridLayoutClass="grid-cols-[2fr_1.2fr_1fr_1fr_1fr_auto]"
-        onRowClick={(admin) => console.log("Clicked row:", admin)}
-        isLoading={loading}
-      />
-    </GlassCard>
+        <GridTable
+          data={admins}
+          columns={columns}
+          rowKeyAccessor="id"
+          gridLayoutClass="grid-cols-[2fr_1.2fr_1fr_1fr_1fr_1fr_auto]"
+          onRowClick={(admin) => console.log("Clicked row:", admin)}
+          isLoading={loading}
+        />
+      </GlassCard>
+    </>
   );
 };
 export default AdminList;

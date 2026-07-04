@@ -23,33 +23,37 @@ import TextareaField from "@/components/forms/TextareaField";
 import z from "zod";
 import { adminSchema } from "@/zodSchemas/admin/adminSchema";
 import SelectField from "@/components/forms/SelectField";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCreateAdminMutation } from "@/services/redux/api/modules/adminApi";
+import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 
 type AdminFormData = z.infer<typeof adminSchema.createAdminSchema>;
 
 const CreateAdminModal = () => {
   const dispatch = useAppDispatch();
+  const { refetch } = useAllAdmins();
   const isCreateModalOpen = useAppSelector(
     (state: any) => !!state.modal?.["addAdmin"],
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  
-
-
 
   const genderOptions = [
     { value: "male", label: "Male" },
     { value: "female", label: "Female" },
     { value: "other", label: "Other" },
   ];
-
-
-
-
+  const [createAdmin, { isLoading }] = useCreateAdminMutation();
 
   const onSubmit = async (data: AdminFormData) => {
     try {
-      console.log("Form submitted with data:", data);
+      const res = await createAdmin(data).unwrap();
+      if (res?.success) {
+        console.log(res);
+        toast.success(res?.message);
+        refetch();  
+        dispatch(closeModal("addAdmin"));
+      }
     } catch (err: any) {
       const errorMsg =
         err?.data?.message || err?.data || "Login failed. Please try again.";
@@ -68,7 +72,7 @@ const CreateAdminModal = () => {
     >
       <Form
         onSubmit={onSubmit}
-        //  resolver={zodResolver(authSchemas.registerSchema)}
+        resolver={zodResolver(adminSchema.createAdminSchema)}
         defaultValues={{
           firstName: "",
           lastName: "",
@@ -197,9 +201,9 @@ const CreateAdminModal = () => {
         )}
 
         <Button
-          //  disabled={isLoading}
+          disabled={isLoading}
           className="w-full"
-          //  loading={isLoading}
+          loading={isLoading}
           loadingIcTe={"Creating account..."}
         >
           Create Account

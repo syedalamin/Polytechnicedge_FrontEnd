@@ -2,17 +2,27 @@ import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import { Shield, ShieldAlert } from "lucide-react";
 
-const RoleStatus = () => {
+const RoleStatus = ({admins}:{admins: any}) => {
+
+    let adminCount = 0;
+    let superAdminCount = 0;
+
+    admins?.forEach((admin: any) => {
+      if (admin?.user?.role === "ADMIN") adminCount++;
+      if (admin?.user?.role === "SUPER_ADMIN") superAdminCount++;
+    });
+ 
+
   const roleStats = [
     {
       label: "Super Admins",
-      count: 1,
+      count: superAdminCount,
       icon: ShieldAlert,
       color: "from-purple-400 to-pink-500",
     },
     {
       label: "Admins",
-      count: 3,
+      count: adminCount,
       icon: Shield,
       color: "from-cyan-400 to-blue-500",
     },

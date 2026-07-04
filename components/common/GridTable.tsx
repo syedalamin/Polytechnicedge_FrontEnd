@@ -49,7 +49,7 @@ export default function GridTable<T>({
         <div className="divide-y divide-white/5">
           {isLoading ? (
             <div className="text-center py-16 flex flex-col items-center justify-center gap-3">
-              {/* Tailwind CSS এর একটি সুন্দর অ্যানিমেটেড স্পিনার */}
+         
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
               <Text variant="body" color="dimmed" size="md">
                 Loading data, please wait...

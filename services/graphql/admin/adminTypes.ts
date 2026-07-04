@@ -8,8 +8,11 @@ export interface IAdmin {
   lastName: string;
   bio?: string | null;
   address?: string | null;
-  createdAt: string;
+  gender: string;
+  contactNumber1: string; 
+  profileImage: string;
   updatedAt: string;
+  createdAt: string;
   user: IUser;
 }
 

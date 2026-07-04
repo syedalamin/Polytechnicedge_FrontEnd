@@ -22,11 +22,11 @@ export default function LoginForm() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [loginMutation, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const res = await loginMutation(data).unwrap();
+      const res = await login(data).unwrap();
 
       if (res?.success && res?.data?.resendOtp) {
         localStorage.removeItem("otp_email");
@@ -34,7 +34,7 @@ export default function LoginForm() {
         router.push("/verify-otp");
       } else if (res?.success) {
         localStorage.removeItem("otp_email");
-        toast.success("Login successful!");
+        toast.success(res?.message);
         router.push("/");
       }
     } catch (err: any) {

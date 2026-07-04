@@ -8,6 +8,8 @@ export const GET_ALL_ADMINS = gql`
         userId
         firstName
         lastName
+        profileImage
+        contactNumber1
         user {
           id
           email
