@@ -31,10 +31,10 @@ const CreateAdminModal = () => {
   const isCreateModalOpen = useAppSelector(
     (state: any) => !!state.modal?.["addAdmin"],
   );
-
   const [errorMessage, setErrorMessage] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
+  
+
 
 
   const genderOptions = [
@@ -42,6 +42,9 @@ const CreateAdminModal = () => {
     { value: "female", label: "Female" },
     { value: "other", label: "Other" },
   ];
+
+
+
 
 
   const onSubmit = async (data: AdminFormData) => {

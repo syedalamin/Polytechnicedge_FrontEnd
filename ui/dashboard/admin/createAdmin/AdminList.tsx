@@ -6,51 +6,12 @@ import GridTable, { TableColumn } from "@/components/common/GridTable";
 import { Edit, Globe, MoreVertical, Shield, Trash2 } from "lucide-react";
 
 import Button from "@/components/common/Button";
+import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 
-interface AdminType {
-  name: string;
-  email: string;
-  role: string;
-  initials: string;
-  status: string;
-  lastActive: string;
-  permissions: number;
-  sessions: number;
-}
 const AdminList = () => {
-  const allAdmins: AdminType[] = [
-    {
-      name: "John Doe",
-      email: "john@example.com",
-      role: "Super Admin",
-      initials: "JD",
-      status: "active",
-      lastActive: "Now",
-      permissions: 12,
-      sessions: 3,
-    },
-    {
-      name: "Jane Smith",
-      email: "jane@example.com",
-      role: "Admin",
-      initials: "JS",
-      status: "active",
-      lastActive: "5m ago",
-      permissions: 8,
-      sessions: 2,
-    },
+  const { admins, meta, loading, error } = useAllAdmins();
 
-    {
-      name: "Alice Brown",
-      email: "alice@example.com",
-      role: "Admin",
-      initials: "AB",
-      status: "away",
-      lastActive: "2h ago",
-      permissions: 7,
-      sessions: 1,
-    },
-  ];
+  // console.log("All Admins Data:", admins);
 
   const statusConfig: Record<string, { dot: string; label: string }> = {
     active: { dot: "bg-emerald-400", label: "Active" },
@@ -59,7 +20,7 @@ const AdminList = () => {
   };
 
   const roleBadgeColors: Record<string, string> = {
-    "Super Admin": "bg-purple-500/20 text-purple-300 border-purple-500/30",
+    SUPER_ADMIN: "bg-purple-500/20 text-purple-300 border-purple-500/30",
     Admin: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
   };
 
@@ -79,10 +40,10 @@ const AdminList = () => {
               size="sm"
               className="font-medium truncate"
             >
-              {admin.name}
+              {admin.firstName} {admin.lastName}
             </Text>
             <Text variant="body" color="dimmed" size="sm" className="truncate">
-              {admin.email}
+              {admin.user.email}
             </Text>
           </div>
         </>
@@ -93,9 +54,9 @@ const AdminList = () => {
       className: "px-4",
       accessor: (admin) => (
         <span
-          className={`text-xs px-2.5 py-1 rounded-full border ${roleBadgeColors[admin.role] || "bg-white/5 text-gray-300 border-white/10"}`}
+          className={`text-xs px-2.5 py-1 rounded-full border ${roleBadgeColors[admin.user.role] || "bg-white/5 text-gray-300 border-white/10"}`}
         >
-          {admin.role}
+          {admin.user.role}
         </span>
       ),
     },
@@ -103,45 +64,26 @@ const AdminList = () => {
       header: "Status",
       className: "px-4 flex items-center gap-2",
       accessor: (admin) => (
-        <div className="flex items-center gap-2">
-          <div
-            className={`w-1.5 h-1.5 rounded-full ${(statusConfig[admin.status] || statusConfig.offline).dot}`}
-          />
-          <Text variant="body" color="dimmed" size="sm">
-            {statusConfig[admin.status]?.label || "Offline"}
-          </Text>
-          <Text variant="body" color="dimmed" size="sm">
-            · {admin.lastActive}
-          </Text>
-        </div>
+        <Text variant="body" color="dimmed" size="sm">
+          {statusConfig[admin.user.status]?.label || "Offline"}
+        </Text>
       ),
     },
+
     {
-      header: "Permissions",
-      className: "px-4 flex items-center gap-2",
-      accessor: (admin) => (
-        <div className="flex items-center gap-2">
-          <Shield className="w-3.5 h-3.5 text-gray-500" />
-          <Text variant="body" color="white" size="sm">
-            {admin.permissions}
-          </Text>
-        </div>
-      ),
-    },
-    {
-      header: "Sessions",
+      header: "Verify",
       className: "px-4 flex items-center gap-2",
       accessor: (admin) => (
         <div className="flex items-center gap-2">
           <Globe
-            className={`w-3.5 h-3.5 ${admin.sessions > 0 ? "text-emerald-400" : "text-gray-600"}`}
+            className={`w-3.5 h-3.5 ${admin.user.emailVerified > 0 ? "text-emerald-400" : "text-gray-600"}`}
           />
           <Text
             variant="body"
-            color={admin.sessions > 0 ? "white" : "dimmed"}
+            color={admin.user.emailVerified > 0 ? "primary" : "dimmed"}
             size="sm"
           >
-            {admin.sessions} {admin.sessions === 1 ? "session" : "sessions"}
+            {admin.user.emailVerified ? "Verified" : "Not Verified"}
           </Text>
         </div>
       ),
@@ -183,23 +125,24 @@ const AdminList = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <Text color="white" variant="body" size="md">
-              All Administrators
+              All Administrators & page {meta?.totalPages}
             </Text>
           </div>
           <div>
             <Text color="dimmed" variant="caption" size="sm">
-              {allAdmins.length} total
+              {meta?.total} total
             </Text>
           </div>
         </div>
       </div>
 
       <GridTable
-        data={allAdmins}
+        data={admins}
         columns={columns}
-        rowKeyAccessor="email"
-        gridLayoutClass="grid-cols-[2fr_1fr_1.2fr_1fr_1fr_1fr]"
-        // onRowClick={(admin) => console.log("Clicked row:", admin)}
+        rowKeyAccessor="id"
+        gridLayoutClass="grid-cols-[2fr_1.2fr_1fr_1fr_1fr_auto]"
+        onRowClick={(admin) => console.log("Clicked row:", admin)}
+        isLoading={loading}
       />
     </GlassCard>
   );

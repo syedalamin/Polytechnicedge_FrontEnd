@@ -2,7 +2,7 @@
 
 import React from "react";
 import Text from "@/components/common/Text";
- 
+
 export interface TableColumn<T> {
   header: string;
   accessor: keyof T | ((item: T) => React.ReactNode);
@@ -15,6 +15,7 @@ interface GridTableProps<T> {
   gridLayoutClass: string;
   rowKeyAccessor: keyof T | ((item: T) => string | number);
   onRowClick?: (item: T) => void;
+  isLoading?: boolean;
 }
 
 export default function GridTable<T>({
@@ -23,15 +24,14 @@ export default function GridTable<T>({
   gridLayoutClass,
   rowKeyAccessor,
   onRowClick,
+  isLoading = false,
 }: GridTableProps<T>) {
-   
   const getKey = (item: T, index: number): string | number => {
     if (typeof rowKeyAccessor === "function") return rowKeyAccessor(item);
     return (item[rowKeyAccessor] as string | number) || index;
   };
 
   return (
-   
     <div className="w-full overflow-x-auto overflow-hidden">
       <div className="min-w-3xl">
         <div
@@ -47,7 +47,15 @@ export default function GridTable<T>({
         </div>
 
         <div className="divide-y divide-white/5">
-          {data.length === 0 ? (
+          {isLoading ? (
+            <div className="text-center py-16 flex flex-col items-center justify-center gap-3">
+              {/* Tailwind CSS এর একটি সুন্দর অ্যানিমেটেড স্পিনার */}
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+              <Text variant="body" color="dimmed" size="md">
+                Loading data, please wait...
+              </Text>
+            </div>
+          ) : data.length === 0 ? (
             <div className="text-center py-16">
               <Text
                 variant="body"
@@ -66,7 +74,7 @@ export default function GridTable<T>({
                 className={`grid ${gridLayoutClass} items-center hover:bg-white/5 transition-colors group py-4 ${
                   onRowClick ? "cursor-pointer" : ""
                 }`}
-              > 
+              >
                 {columns.map((col, colIndex) => (
                   <div key={colIndex} className={col.className || "px-4"}>
                     {typeof col.accessor === "function" ? (
