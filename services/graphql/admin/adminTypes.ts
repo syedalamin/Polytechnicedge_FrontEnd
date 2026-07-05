@@ -9,8 +9,11 @@ export interface IAdmin {
   bio?: string | null;
   address?: string | null;
   gender: string;
-  contactNumber1: string; 
+  contactNumber1: string;
+  contactNumber2?: string;
   profileImage: string;
+  backgroundImage?: string;
+  dateOfBirth?: string;
   updatedAt: string;
   createdAt: string;
   user: IUser;
@@ -22,7 +25,7 @@ export interface IPaginationMeta {
   total: number;
   totalPages: number;
 }
- 
+
 export interface IAdminResponse {
   getAllAdmins: {
     admins: IAdmin[];

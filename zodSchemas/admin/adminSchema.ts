@@ -51,6 +51,49 @@ const createAdminSchema = z.object({
   dateOfBirth: z.string().optional(),
 });
 
+const updateAdminValidation = z.object({
+  
+    firstName: z
+      .string()
+      .min(1, { message: "First name is required" })
+      .max(100, { message: "First name cannot exceed 100 characters" })
+      .optional(),
+    middleName: z
+      .string()
+      .max(100, { message: "Middle name cannot exceed 100 characters" })
+      .optional(),
+    lastName: z
+      .string()
+      .min(1, { message: "Last name is required" })
+      .max(100, { message: "Last name cannot exceed 100 characters" })
+      .optional(),
+    bio: z
+      .string()
+      .max(500, { message: "Bio cannot exceed 500 characters" })
+      .optional(),
+    address: z
+      .string()
+      .max(255, { message: "Address cannot exceed 255 characters" })
+      .optional(),
+    gender: z
+      .string()
+      .max(50, { message: "Gender cannot exceed 50 characters" })
+      .optional(),
+    profileImage: z.url().optional(),
+    backgroundImage: z.url().optional(),
+    contactNumber1: z
+      .string()
+      .max(20, { message: "Contact number cannot exceed 20 characters" })
+      .optional(),
+    contactNumber2: z
+      .string()
+      .max(20, { message: "Contact number cannot exceed 20 characters" })
+      .optional(),
+    dateOfBirth: z.string().optional(),
+  
+});
+
 export const adminSchema = {
   createAdminSchema,
+  updateAdminValidation,
 };
