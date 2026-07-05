@@ -1,5 +1,4 @@
 import AdminList from "./AdminList";
-import CreateAdminModal from "./CreateAdminModal";
 import CreateAdminHeader from "./Header";
 import RoleStatus from "./RoleStatus";
  
@@ -12,8 +11,6 @@ const CreateAdminDashboard = () => {
         <RoleStatus/>
         <AdminList />
 
-        {/* Modal  */}
-        <CreateAdminModal />
       </div>
     </div>
   );

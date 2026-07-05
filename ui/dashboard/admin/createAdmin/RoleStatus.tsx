@@ -5,7 +5,7 @@ import { Shield, ShieldAlert } from "lucide-react";
 import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 
 const RoleStatus = ( ) => {
-  const { admins,} = useAllAdmins();
+  const { admins} = useAllAdmins();
 
     let adminCount = 0;
     let superAdminCount = 0;

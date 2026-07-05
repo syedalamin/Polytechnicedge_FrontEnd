@@ -25,13 +25,15 @@ import { adminSchema } from "@/zodSchemas/admin/adminSchema";
 import SelectField from "@/components/forms/SelectField";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateAdminMutation } from "@/services/redux/api/modules/adminApi";
-import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 
+interface CreateAdminModalProps {
+  refetch: () => void;
+}
 type AdminFormData = z.infer<typeof adminSchema.createAdminSchema>;
 
-const CreateAdminModal = () => {
+const CreateAdminModal = ({ refetch }: CreateAdminModalProps) => {
   const dispatch = useAppDispatch();
-  const { refetch } = useAllAdmins();
+
   const isCreateModalOpen = useAppSelector(
     (state: any) => !!state.modal?.["addAdmin"],
   );
@@ -49,9 +51,9 @@ const CreateAdminModal = () => {
     try {
       const res = await createAdmin(data).unwrap();
       if (res?.success) {
-        console.log(res);
+     
         toast.success(res?.message);
-        refetch();  
+        refetch();
         dispatch(closeModal("addAdmin"));
       }
     } catch (err: any) {

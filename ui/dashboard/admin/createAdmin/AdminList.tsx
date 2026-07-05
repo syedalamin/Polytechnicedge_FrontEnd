@@ -9,14 +9,15 @@ import Button from "@/components/common/Button";
 import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 import Image from "next/image";
 import { useState } from "react";
+import CreateAdminModal from "./CreateAdminModal";
+ 
 
 const AdminList = () => {
   const [page, setPage] = useState(1);
   const limit = 5;
-
-  const { admins, meta, loading } = useAllAdmins(page, limit);
-  
  
+
+  const { admins, meta, loading, refetch } = useAllAdmins(page, limit);
 
   const statusConfig: Record<string, { dot: string; label: string }> = {
     active: { dot: "bg-emerald-400", label: "Active" },
@@ -126,24 +127,20 @@ const AdminList = () => {
             centerIcon={<Edit className="w-4 h-4  " />}
           />
 
-          <Button
-            variant="remove"
-            title="Remove"
-            size="action"
-            centerIcon={<Trash2 className="w-4 h-4" />}
-          />
+          
 
           <Button
             variant="more"
             title="More"
             size="action"
             centerIcon={<MoreVertical className="w-4 h-4" />}
-            onClick={() => console.log(admin)}
           />
         </div>
       ),
     },
   ];
+
+ 
 
   return (
     <>
@@ -168,13 +165,16 @@ const AdminList = () => {
           columns={columns}
           rowKeyAccessor="id"
           gridLayoutClass="grid-cols-[2fr_1.2fr_1fr_1fr_1fr_1fr_auto]"
-          onRowClick={(admin) => console.log("Clicked row:", admin)}
           isLoading={loading}
-          currentPage={meta?.page || 1} 
+          currentPage={meta?.page || 1}
           totalPages={meta?.totalPages || 1}
           onPageChange={(newPage) => setPage(newPage)}
+          // onRowClick={(admin) => console.log("Clicked row:", admin)}
         />
       </GlassCard>
+
+      {/* Modal  */}
+      <CreateAdminModal refetch={refetch} />
     </>
   );
 };

@@ -9,6 +9,8 @@ const adminApi = baseApi.injectEndpoints({
         data: data,
       }),
     }),
+
+  
   }),
 });
 
