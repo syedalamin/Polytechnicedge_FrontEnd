@@ -2,6 +2,7 @@
 
 import React from "react";
 import Text from "@/components/common/Text";
+import Button from "./Button";
 
 export interface TableColumn<T> {
   header: string;
@@ -16,6 +17,9 @@ interface GridTableProps<T> {
   rowKeyAccessor: keyof T | ((item: T) => string | number);
   onRowClick?: (item: T) => void;
   isLoading?: boolean;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
 }
 
 export default function GridTable<T>({
@@ -25,6 +29,9 @@ export default function GridTable<T>({
   rowKeyAccessor,
   onRowClick,
   isLoading = false,
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
 }: GridTableProps<T>) {
   const getKey = (item: T, index: number): string | number => {
     if (typeof rowKeyAccessor === "function") return rowKeyAccessor(item);
@@ -32,7 +39,7 @@ export default function GridTable<T>({
   };
 
   return (
-    <div className="w-full overflow-x-auto overflow-hidden max-h-80 overflow-y-auto">
+    <div className="w-full overflow-x-auto overflow-hidden  ">
       <div className="min-w-3xl">
         <div
           className={`grid ${gridLayoutClass} border-b border-white/5 bg-white/2 items-center py-3`}
@@ -89,6 +96,37 @@ export default function GridTable<T>({
             ))
           )}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-between items-center px-6 py-4 border-t border-white/5 bg-white/1">
+            <div>
+              <Text variant="caption" color="dimmed" size="sm">
+                Page {currentPage} of {totalPages}
+              </Text>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => onPageChange?.(currentPage - 1)}
+                disabled={currentPage === 1 || isLoading}
+                variant="outline"
+                size="xs"
+              >
+                &larr; Previous
+              </Button>
+
+              <Button
+                onClick={() => onPageChange?.(currentPage + 1)}
+                disabled={currentPage === totalPages || isLoading}
+                variant="outline"
+                size="xs"
+              >
+                Next &rarr;
+              </Button>
+ 
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

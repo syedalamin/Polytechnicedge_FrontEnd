@@ -9,7 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "edit"
     | "remove"
     | "more";
-  size?: "sm" | "md" | "lg" | "action";
+  size?: "xs"|"sm" | "md" | "lg" | "action";
   loading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -43,7 +43,7 @@ export default function Button({
       "flex items-center gap-2 text-gray-400 hover:text-white transition-colors mx-auto ",
 
     outline:
-      "flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all text-xs sm:text-sm",
+      "flex items-center justify-center gap-2  rounded-md bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all text-xs sm:text-sm",
 
     edit: "p-1 text-gray-400 hover:text-cyan-400 transition-colors rounded-lg hover:bg-white/10 ",
     remove:
@@ -52,6 +52,7 @@ export default function Button({
   };
 
   const sizes = {
+    xs: "py-1.5 px-2 text-xs ",
     sm: "py-1.5 px-2.5 text-xs md:py-2 md:px-3 md:text-sm",
     md: "py-2 px-3 text-xs lg:py-2.5 lg:px-4 lg:text-sm",
     lg: "py-2.5 px-4 text-sm md:py-3 md:px-6 md:text-base lg:text-lg",

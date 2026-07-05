@@ -1,8 +1,11 @@
+"use client"
 import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import { Shield, ShieldAlert } from "lucide-react";
+import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 
-const RoleStatus = ({admins}:{admins: any}) => {
+const RoleStatus = ( ) => {
+  const { admins,} = useAllAdmins();
 
     let adminCount = 0;
     let superAdminCount = 0;

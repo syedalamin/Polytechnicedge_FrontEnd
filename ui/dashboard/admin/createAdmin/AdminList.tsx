@@ -8,11 +8,15 @@ import { Edit, Globe, MoreVertical, Shield, Trash2 } from "lucide-react";
 import Button from "@/components/common/Button";
 import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 import Image from "next/image";
-import RoleStatus from "./RoleStatus";
+import { useState } from "react";
 
 const AdminList = () => {
-  const { admins, meta, loading } = useAllAdmins();
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
+  const { admins, meta, loading } = useAllAdmins(page, limit);
+  
+ 
 
   const statusConfig: Record<string, { dot: string; label: string }> = {
     active: { dot: "bg-emerald-400", label: "Active" },
@@ -143,14 +147,12 @@ const AdminList = () => {
 
   return (
     <>
-      <RoleStatus admins={admins} />
-
       <GlassCard paddingSize="md">
         <div className="p-4 sm:p-5 md:p-6 border-b border-white/5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <Text color="white" variant="body" size="md">
-                All Administrators & page {meta?.totalPages}
+                All Admin
               </Text>
             </div>
             <div>
@@ -168,6 +170,9 @@ const AdminList = () => {
           gridLayoutClass="grid-cols-[2fr_1.2fr_1fr_1fr_1fr_1fr_auto]"
           onRowClick={(admin) => console.log("Clicked row:", admin)}
           isLoading={loading}
+          currentPage={meta?.page || 1} 
+          totalPages={meta?.totalPages || 1}
+          onPageChange={(newPage) => setPage(newPage)}
         />
       </GlassCard>
     </>
