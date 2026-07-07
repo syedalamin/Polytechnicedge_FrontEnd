@@ -9,9 +9,15 @@ const adminApi = baseApi.injectEndpoints({
         data: data,
       }),
     }),
-
-  
+    updateAdminProfile: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/admins/${id}`,
+        method: "PUT",
+        data: data,
+      }),
+    }),
   }),
 });
 
-export const { useCreateAdminMutation } = adminApi;
+export const { useCreateAdminMutation, useUpdateAdminProfileMutation } =
+  adminApi;

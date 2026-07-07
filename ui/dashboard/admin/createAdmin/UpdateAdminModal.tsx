@@ -24,6 +24,7 @@ import z from "zod";
 import { adminSchema } from "@/zodSchemas/admin/adminSchema";
 import SelectField from "@/components/forms/SelectField";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUpdateAdminProfileMutation } from "@/services/redux/api/modules/adminApi";
 
 interface UpdateAdminModalProps {
   refetch: () => void;
@@ -33,12 +34,11 @@ type AdminFormData = z.infer<typeof adminSchema.updateAdminValidation>;
 
 const UpdateAdminModal = ({ refetch, updateData }: UpdateAdminModalProps) => {
   const dispatch = useAppDispatch();
-
+  const [updateAdminProfile, { isLoading }] = useUpdateAdminProfileMutation();
   const isCreateModalOpen = useAppSelector(
     (state: any) => !!state.modal?.["updateAdmin"],
   );
   const [errorMessage, setErrorMessage] = useState("");
- 
 
   const genderOptions = [
     { value: "male", label: "Male" },
@@ -46,23 +46,26 @@ const UpdateAdminModal = ({ refetch, updateData }: UpdateAdminModalProps) => {
     { value: "other", label: "Other" },
   ];
 
-  console.log(updateData);
-
   const onSubmit = async (data: AdminFormData) => {
-    console.log(data)
-    // try {
-    //   const res = await createAdmin(data).unwrap();
-    //   if (res?.success) {
-    //     toast.success(res?.message);
-    //     refetch();
-    //     dispatch(closeModal("updateAdmin"));
-    //   }
-    // } catch (err: any) {
-    //   const errorMsg =
-    //     err?.data?.message || err?.data || "Login failed. Please try again.";
-    //   setErrorMessage(errorMsg);
-    //   toast.error(errorMsg);
-    // }
+    try {
+      const adminId = updateData?.id || updateData?._id;
+
+      if (!adminId) {
+        toast.error("Admin ID not found!");
+        return;
+      }
+      const res = await updateAdminProfile({ id: adminId, data }).unwrap();
+      if (res?.success) {
+        toast.success(res?.message);
+        refetch();
+        dispatch(closeModal("updateAdmin"));
+      }
+    } catch (err: any) {
+      const errorMsg =
+        err?.data?.message || err?.data || "Login failed. Please try again.";
+      setErrorMessage(errorMsg);
+      toast.error(errorMsg);
+    }
   };
 
   return (
@@ -88,7 +91,6 @@ const UpdateAdminModal = ({ refetch, updateData }: UpdateAdminModalProps) => {
           bio: updateData?.bio || "",
           dateOfBirth: updateData?.dateOfBirth || "",
         }}
-       
       >
         <div className="space-y-4 max-h-[50vh] sm:max-h-[60vh] md:max-h-[70vh] lg:max-h-[75vh] overflow-y-auto custom-scrollbar pr-2">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -115,11 +117,7 @@ const UpdateAdminModal = ({ refetch, updateData }: UpdateAdminModalProps) => {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-            
-
-             
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4"></div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <SelectField
               label="Gender"
@@ -176,9 +174,9 @@ const UpdateAdminModal = ({ refetch, updateData }: UpdateAdminModalProps) => {
         )}
 
         <Button
-          //   disabled={isLoading}
+          disabled={isLoading}
           className="w-full"
-          //   loading={isLoading}
+          loading={isLoading}
           loadingIcTe={"Creating account..."}
         >
           Update Account
