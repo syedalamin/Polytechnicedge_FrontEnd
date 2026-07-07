@@ -1,10 +1,10 @@
-import { IAdminResponse } from "./adminTypes";
-import { GET_ADMIN_PROFILE, GET_ALL_ADMINS } from "./adminQueries";
 import { useQuery } from "@apollo/client/react";
+import { GET_ALL_STUDENTS, GET_STUDENT_PROFILE } from "./studentQueries";
+import { IPaginatedStudents } from "./studentTypes";
 
-export const useAllAdmins = (page = 1, limit = 10) => {
-  const { data, loading, error, refetch } = useQuery<IAdminResponse>(
-    GET_ALL_ADMINS,
+export const useAllStudents = (page = 1, limit = 10) => {
+  const { data, loading, error, refetch } = useQuery<IPaginatedStudents>(
+    GET_ALL_STUDENTS,
     {
       variables: {
         pagination: {
@@ -20,16 +20,16 @@ export const useAllAdmins = (page = 1, limit = 10) => {
   );
 
   return {
-    admins: data?.getAllAdmins?.admins || [],
-    meta: data?.getAllAdmins?.meta,
+    students: data?.getAllStudents?.students || [],
+    meta: data?.getAllStudents?.meta,
     loading,
     error,
     refetch,
   };
 };
 
-export const useAdminProfile = (id: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_ADMIN_PROFILE, {
+export const useStudentProfile = (id: string) => {
+  const { data, loading, error, refetch } = useQuery(GET_STUDENT_PROFILE, {
     variables: { id },
     skip: !id,
     fetchPolicy: "cache-and-network",
@@ -37,10 +37,9 @@ export const useAdminProfile = (id: string) => {
   });
 
   return {
-    adminProfile: data || null,
+    studentProfile: data || null,
     loading,
     error,
     refetch,
   };
 };
-
