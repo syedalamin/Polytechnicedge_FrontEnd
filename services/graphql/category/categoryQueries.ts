@@ -8,7 +8,9 @@ export const GET_ALL_Category = gql`
         name
         slug
         description
-        courses
+        courses{
+          id
+        }
       }
       meta {
         page
