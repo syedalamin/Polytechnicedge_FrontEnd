@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Users, BookOpen, Sparkles } from "lucide-react";
+import { LayoutDashboard, Users, BookOpen, Sparkles, GraduationCap, ClipboardList, ShoppingCart, CreditCard, Award, Bell, Calendar, BookMarked, FileQuestion, Shield } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -28,8 +28,34 @@ type NavLink = { label: string; href: string; icon: any };
 const adminLinks: NavLink[] = [
   { label: "Home", href: "/", icon: LayoutDashboard },
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Create Admin", href: "/admin/create-admin", icon: Users },
   { label: "Category", href: "/admin/category", icon: BookOpen },
+  { label: "Courses", href: "/admin/courses", icon: GraduationCap },
+  { label: "Bundles", href: "/admin/bundles", icon: BookMarked },
+  { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
+  { label: "Payments", href: "/admin/payments", icon: CreditCard },
+  { label: "Certificates", href: "/admin/certificates", icon: Award },
+  { label: "Notices", href: "/admin/notices", icon: Bell },
+  { label: "Sessions", href: "/admin/sessions", icon: Calendar },
+  { label: "Enrollments", href: "/admin/enrollments", icon: ClipboardList },
+  { label: "Quiz Attempts", href: "/admin/quiz-attempts", icon: FileQuestion },
+];
+
+const superAdminLinks: NavLink[] = [
+  { label: "Home", href: "/", icon: LayoutDashboard },
+  { label: "Dashboard", href: "/super-admin", icon: LayoutDashboard },
+  { label: "Admins", href: "/super-admin/admins", icon: Shield },
+  { label: "Instructors", href: "/super-admin/instructors", icon: GraduationCap },
+  { label: "Students", href: "/super-admin/students", icon: Users },
+  { label: "Category", href: "/super-admin/category", icon: BookOpen },
+  { label: "Courses", href: "/super-admin/courses", icon: GraduationCap },
+  { label: "Bundles", href: "/super-admin/bundles", icon: BookMarked },
+  { label: "Orders", href: "/super-admin/orders", icon: ShoppingCart },
+  { label: "Payments", href: "/super-admin/payments", icon: CreditCard },
+  { label: "Certificates", href: "/super-admin/certificates", icon: Award },
+  { label: "Notices", href: "/super-admin/notices", icon: Bell },
+  { label: "Sessions", href: "/super-admin/sessions", icon: Calendar },
+  { label: "Enrollments", href: "/super-admin/enrollments", icon: ClipboardList },
+  { label: "Quiz Attempts", href: "/super-admin/quiz-attempts", icon: FileQuestion },
 ];
 
 const instructorLinks: NavLink[] = [
@@ -47,9 +73,8 @@ export function DashboardDrawer() {
     const role = loginData?.role;
 
     if (role === "SUPER_ADMIN") {
-      links = adminLinks;
-    }
-    if (role === "ADMIN") {
+      links = superAdminLinks;
+    } else if (role === "ADMIN") {
       links = adminLinks;
     } else if (role === "INSTRUCTOR") {
       links = instructorLinks;

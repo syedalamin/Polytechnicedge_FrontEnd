@@ -54,7 +54,9 @@ export const useQuiz = (id?: string) => {
 };
 
 export const useQuizzesByModuleId = (moduleId: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_QUIZZES_BY_MODULE_ID, {
+  const { data, loading, error, refetch } = useQuery<{
+    quizzesByModuleId: any[];
+  }>(GET_QUIZZES_BY_MODULE_ID, {
     variables: { moduleId },
     skip: !moduleId,
     fetchPolicy: "cache-and-network",
@@ -62,7 +64,7 @@ export const useQuizzesByModuleId = (moduleId: string) => {
   });
 
   return {
-    quizzes: data || [],
+    quizzes: data?.quizzesByModuleId || ([] as any[]),
     loading,
     error,
     refetch,

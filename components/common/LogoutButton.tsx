@@ -8,6 +8,8 @@ export default function LogoutButton() {
   const [logoutMutation, { isLoading }] = useLogoutMutation();
   const router = useRouter();
 
+
+
   const logout = async () => {
     try {
       await logoutMutation(undefined).unwrap();

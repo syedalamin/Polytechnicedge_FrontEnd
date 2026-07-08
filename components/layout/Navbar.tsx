@@ -1,19 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, Users } from "lucide-react";
+import { Shield, GraduationCap, Users } from "lucide-react";
 
 import { AuthStatus } from "./AuthStatus";
 import MainIcon from "../common/MainIcon";
+import { getCookie } from "@/utils/cookie";
 
-const navLinks = [
+const publicLinks: { href: string; label: string; icon?: any }[] = [
   { href: "/", label: "Home" },
-  { href: "/admin", label: "Admin", icon: Users },
-  { href: "/instructor", label: "INSTRUCTOR", icon: Users },
-  { href: "/student", label: "STUDENT", icon: Users },
 ];
 
+const roleLinks: Record<string, { href: string; label: string; icon?: any }[]> = {
+  SUPER_ADMIN: [
+    { href: "/super-admin", label: "Dashboard", icon: Shield },
+    { href: "/admin", label: "Admin", icon: Shield },
+    { href: "/instructor", label: "Instructor", icon: GraduationCap },
+    { href: "/student", label: "Student", icon: Users },
+  ],
+  ADMIN: [
+    { href: "/admin", label: "Dashboard", icon: Shield },
+  ],
+  INSTRUCTOR: [
+    { href: "/instructor", label: "Dashboard", icon: GraduationCap },
+  ],
+  STUDENT: [
+    { href: "/student", label: "Dashboard", icon: Users },
+  ],
+};
+
 export default function Navbar() {
+  const loginData = getCookie("loginData");
+  const role = loginData?.role as string | undefined;
+  const extraLinks = role ? roleLinks[role] || [] : [];
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0e27]/90 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,7 +47,7 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+            {[...publicLinks, ...extraLinks].map((link) => (
               <div key={link.href} className="relative group">
                 <Link
                   href={link.href}

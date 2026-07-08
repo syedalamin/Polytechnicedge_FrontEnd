@@ -18,8 +18,6 @@ export const useAllCategory = (page = 1, limit = 10) => {
       nextFetchPolicy: "cache-first",
     },
   );
-  console.log(data)
-
   return {
     categories: data?.getAllCategories?.categories || [],
     meta: data?.getAllCategories?.meta,

@@ -71,7 +71,9 @@ export const useModuleBySlug = (slug?: string) => {
 };
 
 export const useModulesByCourseId = (courseId: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_MODULES_BY_COURSE_ID, {
+  const { data, loading, error, refetch } = useQuery<{
+    modulesByCourseId: any[];
+  }>(GET_MODULES_BY_COURSE_ID, {
     variables: { courseId },
     skip: !courseId,
     fetchPolicy: "cache-and-network",
@@ -79,7 +81,7 @@ export const useModulesByCourseId = (courseId: string) => {
   });
 
   return {
-    modules: data || [],
+    modules: data?.modulesByCourseId || ([] as any[]),
     loading,
     error,
     refetch,

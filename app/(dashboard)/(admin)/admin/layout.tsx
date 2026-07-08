@@ -7,7 +7,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ProtectedRoute allowedRoles={["SUPER_ADMIN", "ADMIN"] as UserRole[]}>
+    <ProtectedRoute allowedRoles={["ADMIN"] as UserRole[]}>
       <DashboardDrawer/>
       {children}
     </ProtectedRoute>
