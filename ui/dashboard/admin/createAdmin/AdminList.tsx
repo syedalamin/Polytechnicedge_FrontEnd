@@ -10,6 +10,7 @@ import { useAllAdmins } from "@/services/graphql/admin/adminHook";
 import Image from "next/image";
 import { useState } from "react";
 import CreateAdminModal from "./CreateAdminModal";
+import AdminDetailsModal from "./AdminDetailsModal";
 import { useAppDispatch } from "@/app/reduxHooks";
 import { openModal } from "@/services/redux/slices/modalSlice";
 import UpdateAdminModal from "./UpdateAdminModal";
@@ -19,6 +20,7 @@ const AdminList = () => {
   const [page, setPage] = useState(1);
   const limit = 5;
   const [updateData, setUpdateData] = useState({});
+  const [detailData, setDetailData] = useState({});
  
   const { admins, meta, loading, refetch } = useAllAdmins(page, limit);
 
@@ -138,6 +140,10 @@ const AdminList = () => {
             variant="more"
             title="More"
             size="action"
+            onClick={() => {
+              dispatch(openModal("adminDetails"));
+              setDetailData(admin);
+            }}
             centerIcon={<MoreVertical className="w-4 h-4" />}
           />
         </div>
@@ -179,6 +185,7 @@ const AdminList = () => {
       {/* Modal  */}
       <CreateAdminModal refetch={refetch} />
       <UpdateAdminModal refetch={refetch} updateData={updateData} />
+      <AdminDetailsModal data={detailData} />
     </>
   );
 };
