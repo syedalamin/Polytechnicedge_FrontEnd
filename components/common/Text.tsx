@@ -13,7 +13,7 @@ type TextVariant = keyof typeof tagMap;
 interface TextProps extends HTMLAttributes<HTMLElement> {
   variant?: TextVariant;
   color?: "default" | "primary" | "secondary" | "ghost" | "dimmed" | "white";
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
   children: ReactNode;
 }
 
@@ -46,7 +46,8 @@ export default function Text({
   };
 
   const customSizes = {
-    sm: "text-xs",
+    xs: "text-xs",
+    sm: "text-sm",
     md: "text-sm md:text-base",
     lg: "text-base md:text-lg",
     xl: "text-lg md:text-2xl",

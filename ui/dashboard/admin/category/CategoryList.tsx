@@ -12,12 +12,14 @@ import CreateCategoryModal from "./CreateCategoryModal";
 import { useAppDispatch } from "@/app/reduxHooks";
 import { openModal } from "@/services/redux/slices/modalSlice";
 import UpdateCategoryModal from "./UpdateCategoryModal";
+import CategoryDetailsModal from "./CategoryDetailsModal";
 
 const CategoryList = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const limit = 5;
   const [updateData, setUpdateData] = useState({});
+  const [detailData, setDetailData] = useState({});
 
   const { categories, meta, loading, refetch } = useAllCategory(page, limit);
    
@@ -98,6 +100,10 @@ const CategoryList = () => {
             variant="more"
             title="More"
             size="action"
+            onClick={() => {
+              dispatch(openModal("categoryDetails"));
+              setDetailData(category);
+            }}
             centerIcon={<MoreVertical className="w-4 h-4" />}
           />
         </div>
@@ -137,6 +143,7 @@ const CategoryList = () => {
 
       <CreateCategoryModal refetch={refetch} />
       <UpdateCategoryModal refetch={refetch} updateData={updateData} />
+      <CategoryDetailsModal data={detailData} />
     </>
   );
 };

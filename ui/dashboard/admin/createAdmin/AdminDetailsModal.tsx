@@ -217,7 +217,7 @@ const AdminDetailsModal = ({ data }: AdminDetailsModalProps) => {
             <div key={index} className="flex items-center gap-3">
               {item.icon}
               <div>
-                <Text variant="caption" color="dimmed" size="md">
+                <Text variant="caption" color="dimmed" size="sm">
                   {item.label}
                 </Text>
                 <div className="flex items-center gap-2">
@@ -234,7 +234,7 @@ const AdminDetailsModal = ({ data }: AdminDetailsModalProps) => {
                       {item.value}
                     </span>
                   ) : (
-                    <Text variant="body" color="white" size="md">
+                    <Text variant="body" color="white" size="sm">
                       {item.value}
                     </Text>
                   )}
