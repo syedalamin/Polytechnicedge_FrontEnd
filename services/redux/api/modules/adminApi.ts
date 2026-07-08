@@ -1,4 +1,5 @@
 import { baseApi } from "../baseApi";
+import { tagTypes } from "../tagTypes";
 
 const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,6 +9,7 @@ const adminApi = baseApi.injectEndpoints({
         method: "POST",
         data: data,
       }),
+      invalidatesTags: [tagTypes.Admin],
     }),
     updateAdminProfile: builder.mutation({
       query: ({ id, data }) => ({
@@ -15,9 +17,20 @@ const adminApi = baseApi.injectEndpoints({
         method: "PUT",
         data: data,
       }),
+      invalidatesTags: [tagTypes.Admin],
+    }),
+    deleteAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/admins/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.Admin],
     }),
   }),
 });
 
-export const { useCreateAdminMutation, useUpdateAdminProfileMutation } =
-  adminApi;
+export const {
+  useCreateAdminMutation,
+  useUpdateAdminProfileMutation,
+  useDeleteAdminMutation,
+} = adminApi;

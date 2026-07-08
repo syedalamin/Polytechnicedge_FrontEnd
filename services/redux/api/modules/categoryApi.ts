@@ -1,4 +1,5 @@
 import { baseApi } from "../baseApi";
+import { tagTypes } from "../tagTypes";
 
 const categoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,6 +9,7 @@ const categoryApi = baseApi.injectEndpoints({
         method: "POST",
         data: data,
       }),
+      invalidatesTags: [tagTypes.Category],
     }),
     updateCategory: builder.mutation({
       query: ({ id, data }) => ({
@@ -15,9 +17,20 @@ const categoryApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: data,
       }),
+      invalidatesTags: [tagTypes.Category],
+    }),
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `/categories/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.Category],
     }),
   }),
 });
 
-export const { useCreateCategoryMutation, useUpdateCategoryMutation } =
-  categoryApi;
+export const {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useDeleteCategoryMutation,
+} = categoryApi;
