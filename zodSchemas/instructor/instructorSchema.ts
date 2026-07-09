@@ -8,7 +8,8 @@ const createInstructorSchema = z.object({
     .string()
     .min(8, { message: "Password must be at least 8 characters" })
     .regex(passwordRegex, {
-      message: "Password must contain at least one uppercase, one lowercase, one number and one special character",
+      message:
+        "Password must contain at least one uppercase, one lowercase, one number and one special character",
     }),
   firstName: z.string().min(1, "First name is required").max(100),
   middleName: z.string().max(100).optional(),
@@ -21,11 +22,11 @@ const createInstructorSchema = z.object({
   contactNumber1: z.string().max(20).optional(),
   contactNumber2: z.string().max(20).optional(),
   dateOfBirth: z.string().optional(),
-  expertise: z.string().optional(),
+  expertise: z.array(z.string()).optional(),
   qualification: z.string().max(255).optional(),
   experienceYears: z.coerce.number().optional(),
-  linkedin: z.string().url().optional().or(z.literal("")),
-  website: z.string().url().optional().or(z.literal("")),
+  linkedin: z.url().optional().or(z.literal("")),
+  website: z.url().optional().or(z.literal("")),
 });
 
 const updateInstructorSchema = z.object({
@@ -40,7 +41,7 @@ const updateInstructorSchema = z.object({
   contactNumber1: z.string().max(20).optional(),
   contactNumber2: z.string().max(20).optional(),
   dateOfBirth: z.string().optional(),
-  expertise: z.string().optional(),
+  expertise: z.array(z.string()).optional(),
   qualification: z.string().max(255).optional(),
   experienceYears: z.coerce.number().optional(),
   linkedin: z.url().optional().or(z.literal("")),
