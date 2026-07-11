@@ -45,12 +45,20 @@ const CourseList = () => {
   const columns: TableColumn<any>[] = [
     {
       header: "Title",
-      className: "pl-6 flex items-center gap-3 min-w-0",
+      className: "pl-6 text-left",
       accessor: (course) => (
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-9 h-9 rounded-lg bg-linear-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
-            {course.title?.charAt(0)?.toUpperCase() || "?"}
-          </div>
+          {course.thumbnail ? (
+            <img
+              src={course.thumbnail}
+              alt={course.title}
+              className="w-9 h-9 rounded-lg object-cover shrink-0"
+            />
+          ) : (
+            <div className="w-9 h-9 rounded-lg bg-linear-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
+              {course.title?.charAt(0)?.toUpperCase() || "?"}
+            </div>
+          )}
           <div className="truncate">
             <Text variant="body" color="white" size="sm" className="font-medium truncate">
               {course.title}

@@ -6,7 +6,7 @@ import Form from "@/components/forms/Form";
 import InputField from "@/components/forms/InputField";
 import SelectField from "@/components/forms/SelectField";
 import TextareaField from "@/components/forms/TextareaField";
-import { DollarSign, GraduationCap, BookOpen, Clock } from "lucide-react";
+import { DollarSign, GraduationCap, BookOpen, Clock, Tag, Link, PlayCircle, Image, ListChecks, Lightbulb, BookMarked, HelpCircle } from "lucide-react";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -15,6 +15,7 @@ import { courseSchema } from "@/zodSchemas/course/courseSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpdateCourseMutation } from "@/services/redux/api/modules/courseApi";
 import { useAllCategory } from "@/services/graphql/category/categoryHook";
+import TagInputField from "@/components/forms/TagInputField";
 
 interface UpdateCourseModalProps {
   refetch: () => void;
@@ -72,10 +73,18 @@ const UpdateCourseModal = ({ refetch, updateData }: UpdateCourseModalProps) => {
         values={{
           title: updateData?.title || "",
           shortDescription: updateData?.shortDescription || "",
-          price: updateData?.price || 0,
+          longDescription: updateData?.longDescription || "",
+          thumbnail: updateData?.thumbnail || "",
+          previewVideoUrl: updateData?.previewVideoUrl || "",
+          price: updateData?.price ?? 0,
           categoryId: updateData?.categoryId || "",
           level: updateData?.level || "ALL_LEVELS",
-          accessExpiresInDays: updateData?.accessExpiresInDays || 365,
+          durationHours: updateData?.durationHours ?? undefined,
+          whatYouWillLearn: updateData?.whatYouWillLearn || [],
+          requirements: updateData?.requirements || [],
+          prerequisites: updateData?.prerequisites || [],
+          tags: updateData?.tags || [],
+          accessExpiresInDays: updateData?.accessExpiresInDays ?? 365,
         }}
       >
         <div className="space-y-4 max-h-[50vh] sm:max-h-[60vh] md:max-h-[70vh] overflow-y-auto custom-scrollbar pr-2">
@@ -94,6 +103,57 @@ const UpdateCourseModal = ({ refetch, updateData }: UpdateCourseModalProps) => {
             <InputField label="Access (days)" name="accessExpiresInDays" type="number" icon={<Clock className="w-4 h-4" />} />
           </div>
           <TextareaField label="Short Description" name="shortDescription" placeholder="Brief description" />
+          <TextareaField
+            label="Long Description"
+            name="longDescription"
+            placeholder="Detailed description of the course"
+            rows={6}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <InputField
+              label="Thumbnail URL"
+              name="thumbnail"
+              placeholder="https://example.com/image.jpg"
+              icon={<Image className="w-4 h-4" />}
+            />
+            <InputField
+              label="Preview Video URL"
+              name="previewVideoUrl"
+              placeholder="https://youtube.com/watch?v=..."
+              icon={<PlayCircle className="w-4 h-4" />}
+            />
+          </div>
+          <InputField
+            label="Duration (minutes)"
+            name="durationHours"
+            type="number"
+            placeholder="e.g. 120"
+            icon={<Clock className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="What You Will Learn"
+            name="whatYouWillLearn"
+            placeholder="Type and press Enter or comma to add"
+            icon={<Lightbulb className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="Requirements"
+            name="requirements"
+            placeholder="Type and press Enter or comma to add"
+            icon={<ListChecks className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="Prerequisites"
+            name="prerequisites"
+            placeholder="Type and press Enter or comma to add"
+            icon={<BookMarked className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="Tags"
+            name="tags"
+            placeholder="Type and press Enter or comma to add"
+            icon={<Tag className="w-4 h-4" />}
+          />
         </div>
 
         {errorMessage && (

@@ -53,7 +53,7 @@ export default function InputField({
         )}
 
         <input
-          {...register(name, registerOptions)}
+          {...register(name, { valueAsNumber: type === "number", ...registerOptions })}
           type={type}
           placeholder={placeholder}
           className={`w-full ${icon ? "pl-10" : "pl-3"} ${

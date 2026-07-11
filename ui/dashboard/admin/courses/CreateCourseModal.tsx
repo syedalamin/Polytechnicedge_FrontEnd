@@ -6,7 +6,7 @@ import Form from "@/components/forms/Form";
 import InputField from "@/components/forms/InputField";
 import SelectField from "@/components/forms/SelectField";
 import TextareaField from "@/components/forms/TextareaField";
-import { DollarSign, GraduationCap, BookOpen, Clock, Tag } from "lucide-react";
+import { DollarSign, GraduationCap, BookOpen, Clock, Tag, Link, PlayCircle, Image, ListChecks, Lightbulb, BookMarked, HelpCircle } from "lucide-react";
 import Button from "@/components/common/Button";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -15,6 +15,7 @@ import { courseSchema } from "@/zodSchemas/course/courseSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateCourseMutation } from "@/services/redux/api/modules/courseApi";
 import { useAllCategory } from "@/services/graphql/category/categoryHook";
+import TagInputField from "@/components/forms/TagInputField";
 
 interface CreateCourseModalProps {
   refetch: () => void;
@@ -69,9 +70,17 @@ const CreateCourseModal = ({ refetch }: CreateCourseModalProps) => {
         defaultValues={{
           title: "",
           shortDescription: "",
+          longDescription: "",
+          thumbnail: "",
+          previewVideoUrl: "",
           price: 0,
           categoryId: "",
           level: "ALL_LEVELS",
+          durationHours: undefined,
+          whatYouWillLearn: [],
+          requirements: [],
+          prerequisites: [],
+          tags: [],
           accessExpiresInDays: 365,
         }}
       >
@@ -117,6 +126,57 @@ const CreateCourseModal = ({ refetch }: CreateCourseModalProps) => {
             label="Short Description"
             name="shortDescription"
             placeholder="Brief description of the course"
+          />
+          <TextareaField
+            label="Long Description"
+            name="longDescription"
+            placeholder="Detailed description of the course"
+            rows={6}
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <InputField
+              label="Thumbnail URL"
+              name="thumbnail"
+              placeholder="https://example.com/image.jpg"
+              icon={<Image className="w-4 h-4" />}
+            />
+            <InputField
+              label="Preview Video URL"
+              name="previewVideoUrl"
+              placeholder="https://youtube.com/watch?v=..."
+              icon={<PlayCircle className="w-4 h-4" />}
+            />
+          </div>
+          <InputField
+            label="Duration (minutes)"
+            name="durationHours"
+            type="number"
+            placeholder="e.g. 120"
+            icon={<Clock className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="What You Will Learn"
+            name="whatYouWillLearn"
+            placeholder="Type and press Enter or comma to add"
+            icon={<Lightbulb className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="Requirements"
+            name="requirements"
+            placeholder="Type and press Enter or comma to add"
+            icon={<ListChecks className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="Prerequisites"
+            name="prerequisites"
+            placeholder="Type and press Enter or comma to add"
+            icon={<BookMarked className="w-4 h-4" />}
+          />
+          <TagInputField
+            label="Tags"
+            name="tags"
+            placeholder="Type and press Enter or comma to add"
+            icon={<Tag className="w-4 h-4" />}
           />
         </div>
 
