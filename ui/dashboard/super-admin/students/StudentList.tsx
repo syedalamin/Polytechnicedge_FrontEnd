@@ -2,7 +2,7 @@
 import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import GridTable, { TableColumn } from "@/components/common/GridTable";
-import { MoreVertical } from "lucide-react";
+import { Edit, MoreVertical } from "lucide-react";
 import Button from "@/components/common/Button";
 import { useAllStudents } from "@/services/graphql/students/studentHook";
 import Image from "next/image";
@@ -10,11 +10,13 @@ import { useState } from "react";
 import { useAppDispatch } from "@/app/reduxHooks";
 import { openModal } from "@/services/redux/slices/modalSlice";
 import StudentDetailsModal from "./StudentDetailsModal";
+import UpdateStudentModal from "./UpdateStudentModal";
 
 const StudentList = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const limit = 10;
+  const [updateData, setUpdateData] = useState({});
   const [detailData, setDetailData] = useState({});
   const { students, meta, loading, refetch } = useAllStudents(page, limit);
 
@@ -31,17 +33,30 @@ const StudentList = () => {
       accessor: (student) => (
         <>
           {student.profileImage ? (
-            <Image alt="profile" src={student.profileImage} width={100} height={100} className="w-9 h-9 rounded-full object-cover" />
+            <Image
+              alt="profile"
+              src={student.profileImage}
+              width={100}
+              height={100}
+              className="w-9 h-9 rounded-full object-cover"
+            />
           ) : (
             <div className="w-9 h-9 rounded-full bg-linear-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-sm shrink-0">
               {student.firstName?.charAt(0) || "?"}
             </div>
           )}
           <div className="truncate">
-            <Text variant="body" color="white" size="sm" className="font-medium truncate">
+            <Text
+              variant="body"
+              color="white"
+              size="sm"
+              className="font-medium truncate"
+            >
               {student.firstName} {student.lastName}
             </Text>
-            <Text variant="body" color="dimmed" size="sm" className="truncate">{student.user?.email}</Text>
+            <Text variant="body" color="dimmed" size="sm" className="truncate">
+              {student.user?.email}
+            </Text>
           </div>
         </>
       ),
@@ -50,11 +65,16 @@ const StudentList = () => {
       header: "Status",
       className: "px-4",
       accessor: (student) => {
-        const config = statusConfig[student.user?.status] || { dot: "bg-gray-500", label: "Unknown" };
+        const config = statusConfig[student.user?.status] || {
+          dot: "bg-gray-500",
+          label: "Unknown",
+        };
         return (
           <div className="flex items-center gap-2">
             <span className={`w-2 h-2 rounded-full ${config.dot}`} />
-            <Text variant="body" color="dimmed" size="sm">{config.label}</Text>
+            <Text variant="body" color="dimmed" size="sm">
+              {config.label}
+            </Text>
           </div>
         );
       },
@@ -78,11 +98,17 @@ const StudentList = () => {
       ),
     },
     {
-      header: "Joined",
+      header: "Date of Birth",
       className: "px-4",
       accessor: (student) => (
         <Text variant="body" color="dimmed" size="sm">
-          {student.createdAt ? new Date(student.createdAt).toLocaleDateString() : "N/A"}
+          {student.dateOfBirth
+            ? new Date(student.dateOfBirth).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })
+            : "N/A"}
         </Text>
       ),
     },
@@ -91,8 +117,26 @@ const StudentList = () => {
       className: "pr-6 text-right",
       accessor: (student) => (
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button variant="more" title="Details" size="action" onClick={() => { dispatch(openModal("studentDetails")); setDetailData(student); }}
-            centerIcon={<MoreVertical className="w-4 h-4" />} />
+          <Button
+            variant="edit"
+            title="Edit"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("updateStudent"));
+              setUpdateData(student);
+            }}
+            centerIcon={<Edit className="w-4 h-4" />}
+          />
+          <Button
+            variant="more"
+            title="Details"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("studentDetails"));
+              setDetailData(student);
+            }}
+            centerIcon={<MoreVertical className="w-4 h-4" />}
+          />
         </div>
       ),
     },
@@ -104,10 +148,14 @@ const StudentList = () => {
         <div className="p-4 sm:p-5 md:p-6 border-b border-white/5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <Text color="white" variant="body" size="md">All Students</Text>
+              <Text color="white" variant="body" size="md">
+                All Students
+              </Text>
             </div>
             <div>
-              <Text color="dimmed" variant="caption" size="sm">{meta?.total} total</Text>
+              <Text color="dimmed" variant="caption" size="sm">
+                {meta?.total} total
+              </Text>
             </div>
           </div>
         </div>
@@ -123,6 +171,7 @@ const StudentList = () => {
         />
       </GlassCard>
       <StudentDetailsModal data={detailData} />
+      <UpdateStudentModal refetch={refetch} updateData={updateData} />
     </>
   );
 };
