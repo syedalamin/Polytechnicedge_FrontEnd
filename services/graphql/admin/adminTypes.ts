@@ -1,4 +1,5 @@
 import { IUser } from "../user/userTypes";
+import { IPaginationMeta } from "../shared/paginationTypes";
 
 export interface IAdmin {
   id: string;
@@ -19,12 +20,7 @@ export interface IAdmin {
   user: IUser;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IAdminResponse {
   getAllAdmins: {

@@ -1,3 +1,5 @@
+import { IPaginationMeta } from "../shared/paginationTypes";
+
 export interface IContentBrief {
   id: string;
   title: string;
@@ -44,12 +46,7 @@ export interface IModuleFilter {
   search?: string;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedModules {
   allModules: {

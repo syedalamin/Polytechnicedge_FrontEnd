@@ -1,10 +1,8 @@
+"use client";
+import InstructorDashboard from "@/ui/dashboard/instructor/dashboard/InstructorDashboard";
+
 const InstructorPage = () => {
-  return (
-    <div>
-      <h1>Instructor Dashboard</h1>
-      <p>Welcome, Instructor!</p>
-    </div>
-  );
+  return <InstructorDashboard />;
 };
 
 export default InstructorPage;

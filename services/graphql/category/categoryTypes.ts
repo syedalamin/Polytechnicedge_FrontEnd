@@ -1,3 +1,5 @@
+import { IPaginationMeta } from "../shared/paginationTypes";
+
 export interface ICategory {
   id: string;
   name: string;
@@ -25,12 +27,7 @@ export interface IPaginationOptions {
   sortOrder?: "asc" | "desc";
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedResponse {
   getAllCategories: {

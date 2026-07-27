@@ -60,8 +60,23 @@ const superAdminLinks: NavLink[] = [
 
 const instructorLinks: NavLink[] = [
   { label: "Home", href: "/", icon: LayoutDashboard },
-  { label: "Instructor Dashboard", href: "/instructor", icon: LayoutDashboard },
+  { label: "Dashboard", href: "/instructor", icon: LayoutDashboard },
   { label: "My Courses", href: "/instructor/courses", icon: BookOpen },
+  { label: "Students", href: "/instructor/students", icon: Users },
+  { label: "Notices", href: "/instructor/notices", icon: Bell },
+  { label: "Profile", href: "/instructor/profile", icon: GraduationCap },
+];
+
+const studentLinks: NavLink[] = [
+  { label: "Home", href: "/", icon: LayoutDashboard },
+  { label: "Dashboard", href: "/student", icon: LayoutDashboard },
+  { label: "My Courses", href: "/student/courses", icon: GraduationCap },
+  { label: "Certificates", href: "/student/certificates", icon: Award },
+  { label: "Orders", href: "/student/orders", icon: ShoppingCart },
+  { label: "Payments", href: "/student/payments", icon: CreditCard },
+  { label: "Notices", href: "/student/notices", icon: Bell },
+  { label: "Progress", href: "/student/progress", icon: ClipboardList },
+  { label: "Profile", href: "/student/profile", icon: Users },
 ];
 
 export function DashboardDrawer() {
@@ -78,6 +93,8 @@ export function DashboardDrawer() {
       links = adminLinks;
     } else if (role === "INSTRUCTOR") {
       links = instructorLinks;
+    } else if (role === "STUDENT") {
+      links = studentLinks;
     }
   }
 

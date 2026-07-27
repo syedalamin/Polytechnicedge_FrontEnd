@@ -1,6 +1,6 @@
-import { useQuery } from "@apollo/client/react";
+import { useQuery, useMutation } from "@apollo/client/react";
 import { IMeResponse } from "./userTypes";
-import { GET_ME_PROFILE } from "./userQueries";
+import { GET_ME_PROFILE, UPDATE_ME } from "./userQueries";
 
 export const useMeForAuth = () => {
   const { data, loading, error, refetch } = useQuery<IMeResponse>(
@@ -18,4 +18,17 @@ export const useMeForAuth = () => {
     refetch,
     isAuthenticated: !!data?.me,
   };
+};
+
+export const useUpdateMe = () => {
+  const [updateMeMutation, { loading, error }] = useMutation(UPDATE_ME, {
+    refetchQueries: [{ query: GET_ME_PROFILE }],
+  });
+
+  const updateMe = async (data: Record<string, any>) => {
+    const result = await updateMeMutation({ variables: { data } });
+    return (result as any)?.data?.updateMe;
+  };
+
+  return { updateMe, loading, error };
 };

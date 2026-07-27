@@ -1,3 +1,5 @@
+import { IPaginationMeta } from "../shared/paginationTypes";
+
 export interface IUserBrief {
   id: string;
   email: string;
@@ -31,12 +33,7 @@ export interface IPaymentFilter {
   status?: string;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedPayments {
   allPayments: {

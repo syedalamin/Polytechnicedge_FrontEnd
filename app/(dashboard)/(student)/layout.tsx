@@ -1,5 +1,4 @@
- 
-import StudentNavbar from "@/components/layout/StudentNavbar";
+import { DashboardDrawer } from "@/components/layout/DashboardDrawer";
 import ProtectedRoute, { UserRole } from "@/providers/ProtectedRoute";
 
 export default function StudentLayout({
@@ -9,7 +8,7 @@ export default function StudentLayout({
 }) {
   return (
     <ProtectedRoute allowedRoles={["STUDENT"] as UserRole[]}>
-      <StudentNavbar />
+      <DashboardDrawer />
       {children}
     </ProtectedRoute>
   );

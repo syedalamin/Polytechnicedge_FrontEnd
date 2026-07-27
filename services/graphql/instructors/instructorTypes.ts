@@ -1,4 +1,5 @@
 import { IUser } from "../user/userTypes";
+import { IPaginationMeta } from "../shared/paginationTypes";
 
 export interface IInstructor {
   id: string;
@@ -27,12 +28,7 @@ export interface IInstructor {
   updatedAt: string;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedInstructors {
   getAllInstructors: {

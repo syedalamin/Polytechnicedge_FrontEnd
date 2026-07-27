@@ -1,3 +1,5 @@
+import { IPaginationMeta } from "../shared/paginationTypes";
+
 export interface ICourseBrief {
   id: string;
   title: string;
@@ -27,12 +29,7 @@ export interface IBundleItemFilter {
   bundleId?: string;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedBundleItems {
   getBundleItemsByBundleId: {

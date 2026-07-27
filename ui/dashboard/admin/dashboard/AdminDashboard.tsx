@@ -5,11 +5,15 @@ import MainIcon from "@/components/common/MainIcon";
 import { GraduationCap, BookOpen, ShoppingCart, Users } from "lucide-react";
 import { useAllCourses } from "@/services/graphql/courses/courseHook";
 import { useAllCategory } from "@/services/graphql/category/categoryHook";
+import { useAllOrders } from "@/services/graphql/orders/orderHook";
+import { useAllStudents } from "@/services/graphql/students/studentHook";
 import Link from "next/link";
 
 const AdminDashboard = () => {
   const { courses } = useAllCourses({}, 1, 100);
   const { categories } = useAllCategory(1, 100);
+  const { orders } = useAllOrders({}, 1, 100);
+  const { students } = useAllStudents(1, 100);
 
   const stats = [
     {
@@ -28,14 +32,14 @@ const AdminDashboard = () => {
     },
     {
       label: "Total Orders",
-      count: 0,
+      count: orders?.length || 0,
       icon: ShoppingCart,
       color: "from-amber-400 to-orange-500",
       href: "/admin/orders",
     },
     {
       label: "Students",
-      count: 0,
+      count: students?.length || 0,
       icon: Users,
       color: "from-green-400 to-emerald-500",
       href: "/admin/enrollments",

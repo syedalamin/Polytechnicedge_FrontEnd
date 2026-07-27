@@ -1,3 +1,5 @@
+import { IPaginationMeta } from "../shared/paginationTypes";
+
 export interface IQuizBrief {
   id: string;
   title: string;
@@ -21,12 +23,7 @@ export interface IQuizQuestionFilter {
   search?: string;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedQuizQuestions {
   allQuizQuestions: {

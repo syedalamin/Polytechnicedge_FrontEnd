@@ -1,3 +1,5 @@
+import { IPaginationMeta } from "../shared/paginationTypes";
+
 export interface IUserBrief {
   id: string;
   email: string;
@@ -28,12 +30,7 @@ export interface ICertificateFilter {
   courseId?: string;
 }
 
-export interface IPaginationMeta {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
+
 
 export interface IPaginatedCertificates {
   allCertificates: {
