@@ -1,4 +1,3 @@
-// SelectTagField.tsx
 import { ReactNode } from "react";
 import { RegisterOptions, useFormContext, Controller } from "react-hook-form";
 import { X, ChevronDown } from "lucide-react";
@@ -16,6 +15,8 @@ interface SelectTagFieldProps {
   placeholder?: string;
   icon?: ReactNode;
   className?: string;
+  // নতুন প্রপ: এটি ঠিক করবে ডাটা অবজেক্ট হবে নাকি স্ট্রিং
+  valueType?: "object" | "string";
 }
 
 export default function SelectTagField({
@@ -26,6 +27,7 @@ export default function SelectTagField({
   placeholder = "Select items...",
   icon,
   className = "",
+  valueType = "object", // ডিফল্টভাবে অবজেক্ট থাকবে যাতে আগের কোড ব্রেক না করে
 }: SelectTagFieldProps) {
   const { control } = useFormContext();
 
@@ -51,32 +53,45 @@ export default function SelectTagField({
             const selectedValue = e.target.value;
             if (!selectedValue) return;
 
-            // Check if already selected based on courseId property
-            const isAlreadySelected = value.some(
-              (item: { courseId: string }) => item.courseId === selectedValue,
-            );
+            // ভ্যালু টাইপ অনুযায়ী চেক করা যে অলরেডি সিলেক্টেড কি না
+            const isAlreadySelected =
+              valueType === "string"
+                ? value.includes(selectedValue)
+                : value.some(
+                    (item: any) =>
+                      String(item.courseId) === String(selectedValue),
+                  );
 
             if (!isAlreadySelected) {
-              onChange([...value, { courseId: selectedValue }]);
+              // স্ট্রিং হলে সরাসরি আইডি, নাহলে অবজেক্ট
+              onChange(
+                valueType === "string"
+                  ? [...value, selectedValue]
+                  : [...value, { courseId: selectedValue }],
+              );
             }
 
             e.target.value = "";
           };
 
-          const removeTag = (courseIdToRemove: string) => {
+          const removeTag = (idToRemove: string) => {
             onChange(
-              value.filter(
-                (item: { courseId: string }) =>
-                  item.courseId !== courseIdToRemove,
-              ),
+              valueType === "string"
+                ? value.filter(
+                    (id: string) => String(id) !== String(idToRemove),
+                  )
+                : value.filter(
+                    (item: any) => String(item.courseId) !== String(idToRemove),
+                  ),
             );
           };
 
-          const availableOptions = options.filter(
-            (opt) =>
-              !value.some(
-                (item: { courseId: string }) => item.courseId === opt.value,
-              ),
+          const availableOptions = options.filter((opt) =>
+            valueType === "string"
+              ? !value.includes(opt.value)
+              : !value.some(
+                  (item: any) => String(item.courseId) === String(opt.value),
+                ),
           );
 
           return (
@@ -88,23 +103,25 @@ export default function SelectTagField({
                   </div>
                 )}
 
-                {value.map((item: { courseId: string }) => {
+                {value.map((item: any) => {
+                  // স্ট্রিং হলে item নিজেই আইডি, নাহলে item.courseId
+                  const currentId =
+                    valueType === "string" ? item : item.courseId;
+
                   const optionObj = options.find(
-                    (opt) => opt.value === item.courseId,
+                    (opt) => String(opt.value) === String(currentId),
                   );
-                  const displayLabel = optionObj
-                    ? optionObj.label
-                    : item.courseId;
+                  const displayLabel = optionObj ? optionObj.label : currentId;
 
                   return (
                     <span
-                      key={item.courseId}
+                      key={currentId}
                       className="flex items-center gap-1 bg-cyan-500/10 text-cyan-400 text-xs font-medium pl-2 pr-1.5 py-1 rounded-md border border-cyan-500/20"
                     >
                       {displayLabel}
                       <button
                         type="button"
-                        onClick={() => removeTag(item.courseId)}
+                        onClick={() => removeTag(currentId)}
                         className="hover:bg-cyan-500/20 rounded p-0.5 transition-colors"
                       >
                         <X className="w-3 h-3 text-cyan-400 hover:text-red-400" />

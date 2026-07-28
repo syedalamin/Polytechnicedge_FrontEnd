@@ -34,7 +34,7 @@ const CreateBundleModal = ({ refetch }: CreateBundleModalProps) => {
       label: cou.title,
     })) || [];
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: BundleFormData) => {
     try {
       const res = await createBundle(data).unwrap();
       if (res?.success) {
