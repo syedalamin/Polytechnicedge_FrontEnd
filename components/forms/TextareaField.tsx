@@ -49,7 +49,7 @@ export default function TextareaField({
           {...register(name, registerOptions)}
           rows={rows}
           placeholder={placeholder}
-          className={`w-full ${icon ? "pl-10" : "pl-3"} pr-3 py-2.5 bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-cyan-500/50 outline-none transition-all text-white placeholder-gray-500 text-sm resize-y min-h-[100px]`}
+          className={`w-full ${icon ? "pl-10" : "pl-3"} pr-3 py-2.5 bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-cyan-500/50 outline-none transition-all text-white placeholder-gray-500 text-sm resize-y min-h-25`}
         />
       </div>
 
