@@ -124,6 +124,7 @@ export const GET_MODULES_BY_COURSE_ID = gql`
       weekNumber
       serial
       estimatedDuration
+      textInstruction
       contents {
         id
         title
