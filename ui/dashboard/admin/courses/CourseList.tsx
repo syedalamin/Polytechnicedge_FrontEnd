@@ -15,6 +15,7 @@ import CourseDetailsModal from "./CourseDetailsModal";
 import Link from "next/link";
 import { usePublishCourseMutation, useUnpublishCourseMutation } from "@/services/redux/api/modules/courseApi";
 import { toast } from "sonner";
+import { getCookie } from "@/utils/cookie";
 
 const CourseList = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,12 @@ const CourseList = () => {
   const { courses, meta, loading, refetch } = useAllCourses({}, page, limit);
   const [publishCourse] = usePublishCourseMutation();
   const [unpublishCourse] = useUnpublishCourseMutation();
+
+    const loginData = getCookie("loginData");
+
+    const userRole = loginData?.role === "SUPER_ADMIN" ? "/super-admin" : "/admin"
+
+   
 
   const handleTogglePublish = async (course: any) => {
     try {
@@ -60,7 +67,12 @@ const CourseList = () => {
             </div>
           )}
           <div className="truncate">
-            <Text variant="body" color="white" size="sm" className="font-medium truncate">
+            <Text
+              variant="body"
+              color="white"
+              size="sm"
+              className="font-medium truncate"
+            >
               {course.title}
             </Text>
           </div>
@@ -98,11 +110,13 @@ const CourseList = () => {
       header: "Status",
       className: "px-4",
       accessor: (course) => (
-        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-          course.isPublished
-            ? "bg-green-500/20 text-green-400"
-            : "bg-yellow-500/20 text-yellow-400"
-        }`}>
+        <span
+          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+            course.isPublished
+              ? "bg-green-500/20 text-green-400"
+              : "bg-yellow-500/20 text-yellow-400"
+          }`}
+        >
           {course.isPublished ? "Published" : "Draft"}
         </span>
       ),
@@ -116,10 +130,19 @@ const CourseList = () => {
             variant="edit"
             title={course.isPublished ? "Unpublish" : "Publish"}
             size="action"
-            onClick={(e: any) => { e.stopPropagation(); handleTogglePublish(course); }}
-            centerIcon={course.isPublished ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            onClick={(e: any) => {
+              e.stopPropagation();
+              handleTogglePublish(course);
+            }}
+            centerIcon={
+              course.isPublished ? (
+                <EyeOff className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )
+            }
           />
-          <Link href={`/admin/courses/${course.id}/modules`}>
+          <Link href={`${userRole}/courses/${course.id}/modules`}>
             <Button
               variant="edit"
               title="Modules"

@@ -29,6 +29,7 @@ const CreateModuleModal = ({ refetch, courseId }: CreateModuleModalProps) => {
   const onSubmit = async (data: ModuleFormData) => {
     try {
       const res = await createModule({ ...data, courseId }).unwrap();
+      console.log(res);
       if (res?.success) {
         toast.success(res?.message);
         refetch();
@@ -42,22 +43,63 @@ const CreateModuleModal = ({ refetch, courseId }: CreateModuleModalProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => dispatch(closeModal("addModule"))} title="Create Module" modalSize="md">
-      <Form onSubmit={onSubmit}         resolver={zodResolver(moduleSchema.createModuleSchema) as any} defaultValues={{ title: "", weekNumber: 1, estimatedDuration: 30, textInstruction: "" }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => dispatch(closeModal("addModule"))}
+      title="Create Module"
+      modalSize="md"
+    >
+      <Form
+        onSubmit={onSubmit}
+        resolver={zodResolver(moduleSchema.createModuleSchema) as any}
+        defaultValues={{
+          title: "",
+          weekNumber: 1,
+          estimatedDuration: 30,
+          textInstruction: "",
+        }}
+      >
         <div className="space-y-4 max-h-[50vh] overflow-y-auto custom-scrollbar pr-2">
-          <InputField label="Module Title" name="title" placeholder="e.g. Introduction to HTML" icon={<Layers className="w-4 h-4" />} />
+          <InputField
+            label="Module Title"
+            name="title"
+            placeholder="e.g. Introduction to HTML"
+            icon={<Layers className="w-4 h-4" />}
+          />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <InputField label="Week Number" name="weekNumber" type="number" placeholder="1" icon={<Hash className="w-4 h-4" />} />
-            <InputField label="Duration (min)" name="estimatedDuration" type="number" placeholder="30" icon={<Clock className="w-4 h-4" />} />
+            <InputField
+              label="Week Number"
+              name="weekNumber"
+              type="number"
+              placeholder="1"
+              icon={<Hash className="w-4 h-4" />}
+            />
+            <InputField
+              label="Duration (min)"
+              name="estimatedDuration"
+              type="number"
+              placeholder="30"
+              icon={<Clock className="w-4 h-4" />}
+            />
           </div>
-          <TextareaField label="Instructions" name="textInstruction" placeholder="Instructions for this module" />
+          <TextareaField
+            label="Instructions"
+            name="textInstruction"
+            placeholder="Instructions for this module"
+          />
         </div>
         {errorMessage && (
           <div className="bg-red-500/20 border border-red-500/50 rounded-lg p-3 mt-3">
             <p className="text-red-400 text-sm text-center">{errorMessage}</p>
           </div>
         )}
-        <Button disabled={isLoading} className="w-full mt-4" loading={isLoading}>Create Module</Button>
+        <Button
+          disabled={isLoading}
+          className="w-full mt-4"
+          loading={isLoading}
+        >
+          Create Module
+        </Button>
       </Form>
     </Modal>
   );

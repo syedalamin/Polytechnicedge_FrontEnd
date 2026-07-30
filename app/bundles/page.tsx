@@ -14,7 +14,7 @@ export default function BundlesPage() {
 
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
           Course
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+          <span className="block text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-400 to-pink-400">
             Bundles
           </span>
         </h1>
@@ -38,14 +38,14 @@ export default function BundlesPage() {
             >
               {/* Popular Badge */}
               {savingsPercent >= 30 && (
-                <div className="absolute top-6 right-6 z-10 px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold rounded-full">
+                <div className="absolute top-6 right-6 z-10 px-3 py-1 bg-linear-to-r from-pink-500 to-purple-500 text-white text-xs font-bold rounded-full">
                   SAVE {savingsPercent}%
                 </div>
               )}
 
               <div className="p-8">
                 {/* Icon */}
-                <div className="w-14 h-14 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <div className="w-14 h-14 bg-linear-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <GraduationCap className="w-7 h-7 text-purple-400" />
                 </div>
 
@@ -62,7 +62,7 @@ export default function BundlesPage() {
                   <div className="space-y-2">
                     {bundle.items.map((item, idx) => (
                       <div key={idx} className="flex items-center gap-2 text-sm text-gray-300">
-                        <Check className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-cyan-400 shrink-0" />
                         <span className="truncate">{item.course.title}</span>
                         <span className="text-gray-500 ml-auto">${item.priceAtBundleTime}</span>
                       </div>
@@ -88,7 +88,7 @@ export default function BundlesPage() {
                 {/* CTA Button */}
                 <Link
                   href={`/bundles/${bundle.slug}`}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all group"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all group"
                 >
                   View Bundle
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -100,7 +100,7 @@ export default function BundlesPage() {
       </div>
 
       {/* Bottom CTA */}
-      <div className="max-w-4xl mx-auto mt-20 text-center bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-white/10 rounded-3xl p-12">
+      <div className="max-w-4xl mx-auto mt-20 text-center bg-linear-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-white/10 rounded-3xl p-12">
         <h2 className="text-3xl font-bold text-white mb-4">Can't find what you're looking for?</h2>
         <p className="text-gray-300 mb-8">Browse our individual courses or contact us for custom learning paths.</p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -112,7 +112,7 @@ export default function BundlesPage() {
           </Link>
           <Link
             href="/contact"
-            className="px-8 py-3 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all"
+            className="px-8 py-3 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:brightness-110 transition-all"
           >
             Contact Us
           </Link>

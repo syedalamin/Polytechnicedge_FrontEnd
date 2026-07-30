@@ -3,7 +3,13 @@
 import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import GridTable, { TableColumn } from "@/components/common/GridTable";
-import { Edit, MoreVertical, BookOpen, FileQuestion, Layers } from "lucide-react";
+import {
+  Edit,
+  MoreVertical,
+  BookOpen,
+  FileQuestion,
+  ListOrdered,
+} from "lucide-react";
 import Button from "@/components/common/Button";
 import { useModulesByCourseId } from "@/services/graphql/modules/moduleHook";
 import { useState } from "react";
@@ -23,7 +29,11 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
   const [updateData, setUpdateData] = useState({});
   const [detailData, setDetailData] = useState({});
 
+
   const { modules, loading, refetch } = useModulesByCourseId(courseId);
+
+ 
+  
 
   const columns: TableColumn<any>[] = [
     {
@@ -35,7 +45,12 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
             {mod.title?.charAt(0)?.toUpperCase() || "?"}
           </div>
           <div className="truncate">
-            <Text variant="body" color="white" size="sm" className="font-medium truncate">
+            <Text
+              variant="body"
+              color="white"
+              size="sm"
+              className="font-medium truncate"
+            >
               {mod.title}
             </Text>
           </div>
@@ -73,13 +88,13 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
       ),
     },
     {
-      header: "Quizzes",
+      header: "Serial",
       className: "px-4",
       accessor: (mod) => (
         <div className="flex items-center gap-2">
-          <FileQuestion className="w-3.5 h-3.5 text-purple-400" />
+          <ListOrdered className="w-3.5 h-3.5 text-purple-400" />
           <Text variant="body" color="dimmed" size="sm">
-            {mod.quizzes?.length || 0}
+            {mod.serial || 0}
           </Text>
         </div>
       ),
@@ -90,13 +105,41 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
       accessor: (mod) => (
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <Link href={`/admin/modules/${mod.id}/contents`}>
-            <Button variant="edit" title="Contents" size="action" centerIcon={<BookOpen className="w-4 h-4" />} />
+            <Button
+              variant="edit"
+              title="Contents"
+              size="action"
+              centerIcon={<BookOpen className="w-4 h-4" />}
+            />
           </Link>
           <Link href={`/admin/modules/${mod.id}/quizzes`}>
-            <Button variant="edit" title="Quizzes" size="action" centerIcon={<FileQuestion className="w-4 h-4" />} />
+            <Button
+              variant="edit"
+              title="Quizzes"
+              size="action"
+              centerIcon={<FileQuestion className="w-4 h-4" />}
+            />
           </Link>
-          <Button variant="edit" title="Edit" size="action" onClick={() => { dispatch(openModal("updateModule")); setUpdateData(mod); }} centerIcon={<Edit className="w-4 h-4" />} />
-          <Button variant="more" title="Details" size="action" onClick={() => { dispatch(openModal("moduleDetails")); setDetailData(mod); }} centerIcon={<MoreVertical className="w-4 h-4" />} />
+          <Button
+            variant="edit"
+            title="Edit"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("updateModule"));
+              setUpdateData(mod);
+            }}
+            centerIcon={<Edit className="w-4 h-4" />}
+          />
+          <Button
+            variant="more"
+            title="Details"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("moduleDetails"));
+              setDetailData(mod);
+            }}
+            centerIcon={<MoreVertical className="w-4 h-4" />}
+          />
         </div>
       ),
     },

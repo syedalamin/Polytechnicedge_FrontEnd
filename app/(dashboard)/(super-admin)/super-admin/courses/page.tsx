@@ -1,5 +1,8 @@
+"use client";
 import CourseDashboard from "@/ui/dashboard/admin/courses/CourseDashboard";
 
-export default function SuperAdminCoursesPage() {
+const CoursePage = () => {
   return <CourseDashboard />;
-}
+};
+
+export default CoursePage;

@@ -7,11 +7,10 @@ import { ArrowLeft, Plus } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-interface ModuleHeaderProps {
-  courseId: string;
-}
 
-const ModuleHeader = ({ courseId }: ModuleHeaderProps) => {
+
+const ModuleHeader = () => {
+
   const dispatch = useAppDispatch();
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4">
