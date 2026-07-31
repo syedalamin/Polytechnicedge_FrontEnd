@@ -19,6 +19,7 @@ import { openModal } from "@/services/redux/slices/modalSlice";
 import UpdateModuleModal from "./UpdateModuleModal";
 import ModuleDetailsModal from "./ModuleDetailsModal";
 import Link from "next/link";
+import { getCookie } from "@/utils/cookie";
 
 interface ModuleListProps {
   courseId: string;
@@ -29,6 +30,9 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
   const [updateData, setUpdateData] = useState({});
   const [detailData, setDetailData] = useState({});
 
+    const loginData = getCookie("loginData");
+
+    const userRole = loginData?.role === "SUPER_ADMIN" ? "/super-admin" : "/admin"
 
   const { modules, loading, refetch } = useModulesByCourseId(courseId);
 
@@ -104,7 +108,7 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
       className: "pr-6 text-right",
       accessor: (mod) => (
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Link href={`/admin/modules/${mod.id}/contents`}>
+          <Link href={`${userRole}/modules/${mod.id}/contents`}>
             <Button
               variant="edit"
               title="Contents"
@@ -112,14 +116,14 @@ const ModuleList = ({ courseId }: ModuleListProps) => {
               centerIcon={<BookOpen className="w-4 h-4" />}
             />
           </Link>
-          <Link href={`/admin/modules/${mod.id}/quizzes`}>
+          {/* <Link href={`/admin/modules/${mod.id}/quizzes`}>
             <Button
               variant="edit"
               title="Quizzes"
               size="action"
               centerIcon={<FileQuestion className="w-4 h-4" />}
             />
-          </Link>
+          </Link> */}
           <Button
             variant="edit"
             title="Edit"

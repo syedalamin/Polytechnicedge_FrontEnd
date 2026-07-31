@@ -4,14 +4,17 @@ const contentTypes = ["VIDEO", "TEXT", "PDF", "AUDIO", "EXTERNAL_LINK", "INTERAC
 
 export const contentSchema = {
   createContentSchema: z.object({
-    moduleId: z.string().min(1),
+  
     title: z.string().min(3, "Title must be at least 3 characters"),
     contentType: z.enum(contentTypes),
     contentUrl: z.string().optional().default(""),
     textContent: z.string().optional().default(""),
     duration: z.number().optional(),
-    isLocked: z.boolean().default(true),
-    serial: z.number().default(0),
+    isLocked: z.preprocess(
+      (val) => val === "true" || val === true,
+      z.boolean().default(true)
+    ),
+   
   }),
   updateContentSchema: z.object({
     title: z.string().min(3).optional(),
@@ -20,6 +23,6 @@ export const contentSchema = {
     textContent: z.string().optional(),
     duration: z.number().optional(),
     isLocked: z.boolean().optional(),
-    serial: z.number().optional(),
+
   }),
 };

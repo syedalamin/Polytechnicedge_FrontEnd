@@ -3,17 +3,32 @@
 import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import GridTable, { TableColumn } from "@/components/common/GridTable";
-import { Edit, MoreVertical, Lock, Unlock, Video, FileText, Headphones, Link as LinkIcon, Monitor } from "lucide-react";
+import {
+  Edit,
+  MoreVertical,
+  Lock,
+  Unlock,
+  Video,
+  FileText,
+  Headphones,
+  Link as LinkIcon,
+  Monitor,
+ 
+} from "lucide-react";
 import Button from "@/components/common/Button";
 import { useAllContents } from "@/services/graphql/contents/contentHook";
 import { useState } from "react";
+import { toast } from "sonner";
 import CreateContentModal from "./CreateContentModal";
 import { useAppDispatch } from "@/app/reduxHooks";
 import { openModal } from "@/services/redux/slices/modalSlice";
 import UpdateContentModal from "./UpdateContentModal";
 import ContentDetailsModal from "./ContentDetailsModal";
+import { useUpdateContentMutation } from "@/services/redux/api/modules/contentApi";
 
-interface ContentListProps { moduleId: string; }
+interface ContentListProps {
+  moduleId: string;
+}
 
 const contentTypeIcons: Record<string, any> = {
   VIDEO: <Video className="w-3.5 h-3.5 text-blue-400" />,
@@ -30,8 +45,37 @@ const ContentList = ({ moduleId }: ContentListProps) => {
   const limit = 10;
   const [updateData, setUpdateData] = useState({});
   const [detailData, setDetailData] = useState({});
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
-  const { contents, meta, loading, refetch } = useAllContents({ moduleId }, page, limit);
+  const { contents, meta, loading, refetch } = useAllContents(
+    { moduleId },
+    page,
+    limit,
+  );
+  const [updateContent] = useUpdateContentMutation();
+
+  const toggleLock = async (content: any) => {
+    if (togglingId) return;
+    setTogglingId(content.id);
+    try {
+      const res = await updateContent({
+        id: content.id,
+        data: { isLocked: !content.isLocked },
+      }).unwrap();
+      if (res?.success) {
+        toast.success(
+          res?.message ||
+            (content.isLocked ? "Content unlocked" : "Content locked"),
+        );
+        refetch();
+      }
+    } catch (err: any) {
+      const errorMsg = err?.data?.message || "Failed to update lock status";
+      toast.error(errorMsg);
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const columns: TableColumn<any>[] = [
     {
@@ -43,7 +87,14 @@ const ContentList = ({ moduleId }: ContentListProps) => {
             {content.title?.charAt(0)?.toUpperCase() || "?"}
           </div>
           <div className="truncate">
-            <Text variant="body" color="white" size="sm" className="font-medium truncate">{content.title}</Text>
+            <Text
+              variant="body"
+              color="white"
+              size="sm"
+              className="font-medium truncate"
+            >
+              {content.title}
+            </Text>
           </div>
         </div>
       ),
@@ -53,8 +104,12 @@ const ContentList = ({ moduleId }: ContentListProps) => {
       className: "px-4",
       accessor: (content) => (
         <div className="flex items-center gap-2">
-          {contentTypeIcons[content.contentType] || <FileText className="w-3.5 h-3.5" />}
-          <Text variant="body" color="dimmed" size="sm">{content.contentType}</Text>
+          {contentTypeIcons[content.contentType] || (
+            <FileText className="w-3.5 h-3.5" />
+          )}
+          <Text variant="body" color="dimmed" size="sm">
+            {content.contentType}
+          </Text>
         </div>
       ),
     },
@@ -62,16 +117,30 @@ const ContentList = ({ moduleId }: ContentListProps) => {
       header: "Duration",
       className: "px-4",
       accessor: (content) => (
-        <Text variant="body" color="dimmed" size="sm">{content.duration ? `${content.duration} min` : "N/A"}</Text>
+        <Text variant="body" color="dimmed" size="sm">
+          {content.duration ? `${content.duration} min` : "N/A"}
+        </Text>
       ),
     },
     {
       header: "Locked",
       className: "px-4",
       accessor: (content) => (
-        content.isLocked
-          ? <Lock className="w-4 h-4 text-red-400" />
-          : <Unlock className="w-4 h-4 text-green-400" />
+        <button
+          type="button"
+          title={content.isLocked ? "Unlock" : "Lock"}
+          onClick={() => toggleLock(content)}
+          disabled={togglingId === content.id}
+          className="p-1 rounded-lg hover:bg-white/10 transition-colors cursor-pointer disabled:opacity-50"
+        >
+          {togglingId === content.id ? (
+            <div className="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin" />
+          ) : content.isLocked ? (
+            <Lock className="w-4 h-4 text-red-400" />
+          ) : (
+            <Unlock className="w-4 h-4 text-green-400" />
+          )}
+        </button>
       ),
     },
     {
@@ -79,8 +148,27 @@ const ContentList = ({ moduleId }: ContentListProps) => {
       className: "pr-6 text-right",
       accessor: (content) => (
         <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button variant="edit" title="Edit" size="action" onClick={() => { dispatch(openModal("updateContent")); setUpdateData(content); }} centerIcon={<Edit className="w-4 h-4" />} />
-          <Button variant="more" title="Details" size="action" onClick={() => { dispatch(openModal("contentDetails")); setDetailData(content); }} centerIcon={<MoreVertical className="w-4 h-4" />} />
+           
+          <Button
+            variant="edit"
+            title="Edit"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("updateContent"));
+              setUpdateData(content);
+            }}
+            centerIcon={<Edit className="w-4 h-4" />}
+          />
+          <Button
+            variant="more"
+            title="Details"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("contentDetails"));
+              setDetailData(content);
+            }}
+            centerIcon={<MoreVertical className="w-4 h-4" />}
+          />
         </div>
       ),
     },
@@ -90,7 +178,9 @@ const ContentList = ({ moduleId }: ContentListProps) => {
     <>
       <GlassCard paddingSize="md">
         <div className="p-4 sm:p-5 md:p-6 border-b border-white/5">
-          <Text color="white" variant="body" size="md">Module Contents</Text>
+          <Text color="white" variant="body" size="md">
+            Module Contents
+          </Text>
         </div>
         <GridTable
           data={contents}
