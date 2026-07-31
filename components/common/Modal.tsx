@@ -53,7 +53,7 @@ export default function Modal({
 
       <GlassCard
         paddingSize="lg"
-        className={`relative w-full ${sizeClasses[modalSize]} bg-[#0f0f11]/90 shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-y-auto`}
+        className={`relative w-full ${sizeClasses[modalSize]} bg-[#0f0f11]/90 shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-y-auto max-h-[90vh]`}
       >
         <div className="flex items-center justify-between mb-4">
           <Text variant="h3" color="white">

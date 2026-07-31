@@ -25,6 +25,7 @@ import { openModal } from "@/services/redux/slices/modalSlice";
 import UpdateContentModal from "./UpdateContentModal";
 import ContentDetailsModal from "./ContentDetailsModal";
 import { useUpdateContentMutation } from "@/services/redux/api/modules/contentApi";
+import { IContent } from "@/services/graphql/contents/contentTypes";
 
 interface ContentListProps {
   moduleId: string;
@@ -44,7 +45,7 @@ const ContentList = ({ moduleId }: ContentListProps) => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const [updateData, setUpdateData] = useState({});
-  const [detailData, setDetailData] = useState({});
+  const [detailData, setDetailData] = useState<IContent | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const { contents, meta, loading, refetch } = useAllContents(
