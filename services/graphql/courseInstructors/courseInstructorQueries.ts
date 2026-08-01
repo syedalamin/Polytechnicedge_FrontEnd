@@ -33,31 +33,3 @@ export const GET_ALL_COURSE_INSTRUCTORS = gql`
     }
   }
 `;
-
-export const GET_COURSE_INSTRUCTOR = gql`
-  query GetCourseInstructor($id: ID) {
-    courseInstructor(id: $id) {
-      id
-      courseId
-      instructorId
-      course {
-        id
-        title
-        slug
-      }
-      instructor {
-        id
-        firstName
-        lastName
-        profileImage
-        expertise
-        rating
-        user {
-          id
-          email
-        }
-      }
-      createdAt
-    }
-  }
-`;

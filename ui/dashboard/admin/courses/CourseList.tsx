@@ -3,7 +3,7 @@
 import Text from "@/components/common/Text";
 import GlassCard from "@/components/common/GlassCard";
 import GridTable, { TableColumn } from "@/components/common/GridTable";
-import { Edit, MoreVertical, BookOpen, Eye, EyeOff, Layers } from "lucide-react";
+import { Edit, MoreVertical, BookOpen, Eye, EyeOff, Layers, GraduationCap } from "lucide-react";
 import Button from "@/components/common/Button";
 import { useAllCourses } from "@/services/graphql/courses/courseHook";
 import { useState } from "react";
@@ -148,6 +148,14 @@ const CourseList = () => {
               title="Modules"
               size="action"
               centerIcon={<Layers className="w-4 h-4" />}
+            />
+          </Link>
+          <Link href={`${userRole}/courses/${course.id}/instructors`}>
+            <Button
+              variant="edit"
+              title="Instructors"
+              size="action"
+              centerIcon={<GraduationCap className="w-4 h-4" />}
             />
           </Link>
           <Button

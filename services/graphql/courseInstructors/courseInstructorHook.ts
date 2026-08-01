@@ -1,8 +1,5 @@
 import { useQuery } from "@apollo/client/react";
-import {
-  GET_ALL_COURSE_INSTRUCTORS,
-  GET_COURSE_INSTRUCTOR,
-} from "./courseInstructorQueries";
+import { GET_ALL_COURSE_INSTRUCTORS } from "./courseInstructorQueries";
 import { IPaginatedCourseInstructors } from "./courseInstructorTypes";
 
 export const useAllCourseInstructors = (
@@ -30,22 +27,6 @@ export const useAllCourseInstructors = (
   return {
     courseInstructors: data?.allCourseInstructors?.courseInstructors || [],
     meta: data?.allCourseInstructors?.meta,
-    loading,
-    error,
-    refetch,
-  };
-};
-
-export const useCourseInstructor = (id?: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_COURSE_INSTRUCTOR, {
-    variables: { id },
-    skip: !id,
-    fetchPolicy: "cache-and-network",
-    nextFetchPolicy: "cache-first",
-  });
-
-  return {
-    courseInstructor: data || null,
     loading,
     error,
     refetch,
