@@ -28,7 +28,7 @@ const CreateBundleModal = ({ refetch }: CreateBundleModalProps) => {
   const [createBundle, { isLoading }] = useCreateBundleMutation();
 
   const { courses } = useAllCourses({}, 1, 100);
-  const categoryOptions =
+  const courseOptions =
     courses?.map((cou: any) => ({
       value: cou.id,
       label: cou.title,
@@ -77,8 +77,8 @@ const CreateBundleModal = ({ refetch }: CreateBundleModalProps) => {
             <SelectTagField
               label="Course"
               name="items"
-              options={categoryOptions}
-              placeholder="Select category"
+              options={courseOptions}
+              placeholder="Select Course"
               icon={<BookOpen className="w-4 h-4" />}
             />
             <TextareaField
@@ -99,9 +99,9 @@ const CreateBundleModal = ({ refetch }: CreateBundleModalProps) => {
           disabled={isLoading}
           className="w-full"
           loading={isLoading}
-          loadingIcTe={"Creating category..."}
+          loadingIcTe={"Creating Bundle..."}
         >
-          Create Category
+          Create Bundle
         </Button>
       </Form>
     </Modal>
