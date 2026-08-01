@@ -11,13 +11,14 @@ import { useAppDispatch } from "@/app/reduxHooks";
 import { openModal } from "@/services/redux/slices/modalSlice";
 import UpdateNoticeModal from "./UpdateNoticeModal";
 import NoticeDetailsModal from "./NoticeDetailsModal";
+import { INotice } from "@/services/graphql/notices/noticeTypes";
 
 const NoticeList = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const limit = 10;
   const [updateData, setUpdateData] = useState({});
-  const [detailData, setDetailData] = useState({});
+  const [detailData, setDetailData] = useState<INotice | null>(null);
   const { notices, meta, loading, refetch } = useAllNotices({}, page, limit);
 
   const columns: TableColumn<any>[] = [
