@@ -25,10 +25,7 @@ const CourseInstructorList = ({ courseId }: CourseInstructorListProps) => {
     useDeleteCourseInstructorMutation();
 
   const handleDelete = async (id: string) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to remove this instructor from the course?",
-    );
-    if (!confirmed) return;
+ 
 
     try {
       const res = await deleteCourseInstructor(id).unwrap();

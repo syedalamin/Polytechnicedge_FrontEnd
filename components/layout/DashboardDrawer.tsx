@@ -53,9 +53,9 @@ const superAdminLinks: NavLink[] = [
   { label: "Payments", href: "/super-admin/payments", icon: CreditCard },
   { label: "Certificates", href: "/super-admin/certificates", icon: Award },
   { label: "Notices", href: "/super-admin/notices", icon: Bell },
-  { label: "Sessions", href: "/super-admin/sessions", icon: Calendar },
   { label: "Enrollments", href: "/super-admin/enrollments", icon: ClipboardList },
-  { label: "Quiz Attempts", href: "/super-admin/quiz-attempts", icon: FileQuestion },
+  // { label: "Sessions", href: "/super-admin/sessions", icon: Calendar },
+  // { label: "Quiz Attempts", href: "/super-admin/quiz-attempts", icon: FileQuestion },
 ];
 
 const instructorLinks: NavLink[] = [
