@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
-import { useMeForAuth, useUpdateMe } from "@/services/graphql/user/userHook";
+import {  useMeForInstructor, useUpdateMe } from "@/services/graphql/user/userHook";
 import GlassCard from "@/components/common/GlassCard";
 import Text from "@/components/common/Text";
 import Button from "@/components/common/Button";
 
 const ProfileDashboard = () => {
-  const { data: me, loading: meLoading } = useMeForAuth();
+  const { data: me, loading: meLoading } = useMeForInstructor();
   const { updateMe, loading } = useUpdateMe();
 
   const [username, setUsername] = useState("");
