@@ -10,18 +10,22 @@ import { useAllCourses } from "@/services/graphql/courses/courseHook";
 import { useState } from "react";
 import Link from "next/link";
 import Button from "@/components/common/Button";
-import {   Layers } from "lucide-react";
+import { Layers, MoreVertical } from "lucide-react";
+import { openModal } from "@/services/redux/slices/modalSlice";
+import { useAppDispatch } from "@/app/reduxHooks";
+import CourseDetailsModal from "../../admin/courses/CourseDetailsModal";
 
 const InstructorCourseList = () => {
+  const dispatch = useAppDispatch();
   const { data: me } = useMeForInstructor();
-  const instructorId = me?.instructorProfile?.userId || "";
-  const [page, setPage] = useState(1);
-  const limit = 100;
-  const { courses: allCourses, loading } = useAllCourses({}, page, limit);
+  const [detailData, setDetailData] = useState({});
+  const courseInstructors = me?.instructorProfile?.courseInstructors || [];
 
-  console.log("my instructor id", me);
+  const myCourses = courseInstructors.map(
+    (item: { course: any }) => item.course,
+  );
 
-   const userRole = "/instructor";
+  const userRole = "/instructor";
 
   const columns: TableColumn<any>[] = [
     {
@@ -108,7 +112,16 @@ const InstructorCourseList = () => {
               centerIcon={<Layers className="w-4 h-4" />}
             />
           </Link>
-         
+          <Button
+            variant="more"
+            title="Details"
+            size="action"
+            onClick={() => {
+              dispatch(openModal("courseDetails"));
+              setDetailData(c);
+            }}
+            centerIcon={<MoreVertical className="w-4 h-4" />}
+          />
         </div>
       ),
     },
@@ -122,12 +135,12 @@ const InstructorCourseList = () => {
         </Text>
       </div>
       <GridTable
-        data={allCourses}
+        data={myCourses}
         columns={columns}
         rowKeyAccessor="id"
         gridLayoutClass="grid-cols-[2fr_1.2fr_0.8fr_1fr_1fr_auto]"
-        isLoading={loading}
       />
+      <CourseDetailsModal data={detailData} />
     </GlassCard>
   );
 };

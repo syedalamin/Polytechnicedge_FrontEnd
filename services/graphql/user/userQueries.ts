@@ -60,8 +60,31 @@ export const GET_ME_For_Instructor = gql`
         profileImage
         backgroundImage
         courseInstructors {
-          id
-          courseId
+          course {
+            id
+            title
+            slug
+            shortDescription
+            longDescription
+            thumbnail
+            previewVideoUrl
+            price
+            isPublished
+            isFeatured
+            level
+            categoryId
+            durationHours
+            whatYouWillLearn
+            requirements
+            prerequisites
+            tags
+            accessExpiresInDays
+            category {
+              id
+              name
+              slug
+            }
+          }
         }
       }
     }
