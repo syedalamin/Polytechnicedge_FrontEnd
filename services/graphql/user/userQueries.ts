@@ -98,6 +98,13 @@ export const UPDATE_ME = gql`
       email
       username
       role
+      instructorProfile {
+        id
+        firstName
+        lastName
+        expertise
+        qualification
+      }
     }
   }
 `;

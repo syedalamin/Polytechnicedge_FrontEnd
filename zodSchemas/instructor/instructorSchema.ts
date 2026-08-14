@@ -48,4 +48,26 @@ const updateInstructorSchema = z.object({
   website: z.url().optional().or(z.literal("")),
 });
 
-export const instructorSchema = { createInstructorSchema, updateInstructorSchema };
+const updateMyProfileSchema = z.object({
+  firstName: z.string().min(1, "First name is required").max(100),
+  middleName: z.string().max(100).optional(),
+  lastName: z.string().min(1, "Last name is required").max(100),
+  bio: z.string().max(500).optional(),
+  address: z.string().max(255).optional(),
+  gender: z.string().max(50).optional(),
+  profileImage: z.url().optional().or(z.literal("")),
+  backgroundImage: z.url().optional().or(z.literal("")),
+  contactNumber1: z.string().max(20).optional(),
+  contactNumber2: z.string().max(20).optional(),
+  dateOfBirth: z.string().optional(),
+  expertise: z.array(z.string()).optional(),
+  qualification: z.string().max(255).optional(),
+  linkedin: z.url().optional().or(z.literal("")),
+  website: z.url().optional().or(z.literal("")),
+});
+
+export const instructorSchema = {
+  createInstructorSchema,
+  updateInstructorSchema,
+  updateMyProfileSchema,
+};

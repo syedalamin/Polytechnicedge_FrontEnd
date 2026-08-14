@@ -19,10 +19,7 @@ export default function Form<T extends FieldValues>({
   className = "",
   ...formOptions
 }: FormProps<T>) {
-  const methods = useForm<T>({
-    ...formOptions,
-    shouldUnregister: true,  
-  });
+  const methods = useForm<T>(formOptions);
 
   return (
     <FormProvider {...methods}>
