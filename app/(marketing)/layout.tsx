@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
-export default function AdminLayout({
+export default function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -8,7 +9,8 @@ export default function AdminLayout({
   return (
     <>
       <Navbar />
-      {children}
+      <div className="min-h-screen">{children}</div>
+      <Footer />
     </>
   );
 }
