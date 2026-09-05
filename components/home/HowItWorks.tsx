@@ -1,31 +1,83 @@
-import { BookOpen, Code, Award } from "lucide-react";
+import { Award, BookOpen, Code, Sparkles } from "lucide-react";
+import Text from "@/components/common/Text";
 
 const steps = [
-  { step: "01", title: "Choose a Course", desc: "Browse our catalog and pick a course that matches your career goals.", icon: BookOpen, color: "text-blue-400 bg-blue-500/10" },
-  { step: "02", title: "Learn & Practice", desc: "Watch video lessons, complete assignments, and join live support sessions.", icon: Code, color: "text-purple-400 bg-purple-500/10" },
-  { step: "03", title: "Get Certified", desc: "Complete the course, earn your certificate, and start your career.", icon: Award, color: "text-pink-400 bg-pink-500/10" },
+  {
+    step: "01",
+    title: "Choose a Course",
+    desc: "Browse our catalog and pick a course that matches your career goals.",
+    icon: BookOpen,
+    gradient: "from-sky-500 to-blue-500",
+    text: "text-sky-300",
+  },
+  {
+    step: "02",
+    title: "Learn & Practice",
+    desc: "Watch video lessons, complete assignments, and join live support sessions.",
+    icon: Code,
+    gradient: "from-violet-500 to-purple-500",
+    text: "text-violet-300",
+  },
+  {
+    step: "03",
+    title: "Get Certified",
+    desc: "Complete the course, earn your certificate, and start your career.",
+    icon: Award,
+    gradient: "from-fuchsia-500 to-pink-500",
+    text: "text-fuchsia-300",
+  },
 ];
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 lg:py-20 bg-white/[0.01]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-14">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">How It Works</h2>
-          <p className="text-gray-400 text-sm">Start your learning journey in 3 simple steps</p>
+    <section className="relative overflow-hidden py-16 lg:py-24">
+      <div className="absolute -top-24 -right-24 w-[400px] h-[400px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center text-center mb-14">
+          <Text variant="caption" color="primary" size="sm" className="mb-3">
+            Simple Process
+          </Text>
+          <Text variant="h2" color="white" size="3xl" className="mb-2">
+            How It Works
+          </Text>
+          <Text variant="body" color="ghost" size="md">
+            Start your learning journey in 3 simple steps
+          </Text>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative">
-          <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-px bg-linear-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20" />
+        <div className="grid md:grid-cols-3 gap-6 relative">
+          <div className="hidden md:block absolute top-10 left-[17%] right-[17%] h-px bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30" />
 
           {steps.map((item, i) => (
-            <div key={i} className="text-center relative">
-              <div className={`w-12 h-12 rounded-xl ${item.color} flex items-center justify-center mx-auto mb-4 relative z-10`}>
-                <item.icon className="w-5 h-5" />
+            <div
+              key={item.step}
+              className="group relative text-center flex flex-col items-center"
+            >
+              <div className="relative mb-6">
+                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center items-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 relative z-10`}
+                >
+                  <item.icon className="w-7 h-7 text-white" />
+                </div>
+                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white/[0.06] border border-white/10 flex items-center justify-center z-20">
+                  <Text variant="caption" color="white" size="xs" className="text-[10px]">
+                    {item.step}
+                  </Text>
+                </div>
               </div>
-              <p className="text-[10px] text-gray-600 font-mono mb-1">Step {item.step}</p>
-              <h3 className="text-base font-bold mb-2">{item.title}</h3>
-              <p className="text-xs text-gray-500 leading-relaxed max-w-xs mx-auto">{item.desc}</p>
+
+              <Text variant="h3" color="white" size="lg" className="mb-2">
+                {item.title}
+              </Text>
+              <Text variant="body" color="dimmed" size="sm" className="max-w-xs">
+                {item.desc}
+              </Text>
+
+              <span className={`mt-4 inline-flex items-center gap-1 ${item.text} opacity-0 group-hover:opacity-100 transition-opacity`}>
+                <Sparkles className="w-3 h-3" />
+                Step {item.step}
+              </span>
             </div>
           ))}
         </div>
