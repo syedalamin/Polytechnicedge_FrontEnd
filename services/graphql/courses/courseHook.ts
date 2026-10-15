@@ -5,7 +5,7 @@ import {
   GET_FEATURED_COURSES,
   GET_PUBLISHED_COURSES,
 } from "./courseQueries";
-import { IPaginatedCourses } from "./courseTypes";
+import { IPaginatedCourses, IPaginatedPublishedCourses } from "./courseTypes";
 
 export const useAllCourses = (
   filter?: Record<string, any>,
@@ -68,14 +68,29 @@ export const useFeaturedCourses = () => {
   };
 };
 
-export const usePublishedCourses = () => {
-  const { data, loading, error, refetch } = useQuery(GET_PUBLISHED_COURSES, {
+
+export const usePublishedCourses = (
+  filter?: Record<string, any>,
+  page = 1,
+  limit = 10
+) => {
+  const { data, loading, error, refetch } = useQuery<IPaginatedPublishedCourses>(GET_PUBLISHED_COURSES, {
+    variables: {
+      filter,
+      pagination: {
+        page,
+        limit,
+        sortBy: "createdAt",
+        sortOrder: "desc",
+      },
+    },
     fetchPolicy: "cache-and-network",
     nextFetchPolicy: "cache-first",
   });
 
   return {
-    publishedCourses: data || [],
+    courses: data?.publishedCourses?.courses || [],
+    meta: data?.publishedCourses?.meta,
     loading,
     error,
     refetch,

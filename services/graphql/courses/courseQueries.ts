@@ -100,21 +100,46 @@ export const GET_FEATURED_COURSES = gql`
 `;
 
 export const GET_PUBLISHED_COURSES = gql`
-  query GetPublishedCourses {
-    publishedCourses {
-      id
-      title
-      slug
-      shortDescription
-      thumbnail
-      price
-      level
-      durationHours
-      category {
+  query GetPublishedCourses(
+    $filter: CourseFilterInput
+    $pagination: PaginationInput
+  ) {
+    publishedCourses(filter: $filter, pagination: $pagination) {
+      courses {
         id
-        name
+        title
         slug
+        shortDescription
+        longDescription
+        thumbnail
+        previewVideoUrl
+        price
+        isPublished
+        isFeatured
+        level
+        categoryId
+        durationHours
+        whatYouWillLearn
+        requirements
+        prerequisites
+        tags
+        accessExpiresInDays
+        category {
+          id
+          name
+          slug
+        }
+        createdAt
+        updatedAt
+      }
+      meta {
+        page
+        limit
+        total
+        totalPages
       }
     }
   }
 `;
+
+ 

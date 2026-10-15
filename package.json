@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "opencode": "opencode --port 60427"
+    "opencode": "opencode serve --port 60427"
   },
   "dependencies": {
     "@apollo/client": "^4.1.9",

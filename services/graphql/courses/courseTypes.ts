@@ -47,10 +47,14 @@ export interface ICourseFilter {
   search?: string;
 }
 
-
-
 export interface IPaginatedCourses {
   allCourses: {
+    courses: ICourse[];
+    meta: IPaginationMeta;
+  };
+}
+export interface IPaginatedPublishedCourses {
+  publishedCourses: {
     courses: ICourse[];
     meta: IPaginationMeta;
   };
