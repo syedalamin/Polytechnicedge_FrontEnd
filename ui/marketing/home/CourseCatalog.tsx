@@ -13,8 +13,8 @@ export default function CourseCatalog() {
   const featuredCourses = sampleCourses.filter((c) => c.isFeatured);
 
   return (
-    <section className="relative overflow-hidden py-16 lg:py-24 bg-white/[0.01]">
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
+    <section className="relative overflow-hidden py-16 lg:py-24 bg-white/1">
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-150 h-75 bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
@@ -31,7 +31,7 @@ export default function CourseCatalog() {
           </div>
           <Link
             href="/courses"
-            className="group hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-white/[0.04] border border-white/10 rounded-xl text-sm text-white font-medium transition-all hover:border-blue-400/50 hover:bg-white/[0.08] hover:-translate-y-0.5 w-fit"
+            className="group hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-white/4 border border-white/10 rounded-xl text-sm text-white font-medium transition-all hover:border-blue-400/50 hover:bg-white/8 hover:-translate-y-0.5 w-fit"
           >
             View All
             <ArrowRight className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform" />
@@ -45,25 +45,25 @@ export default function CourseCatalog() {
             return (
               <Link key={course.id} href={`/courses/${course.slug}`} className="group block">
                 <div
-                  className={`relative h-full bg-white/[0.03] border border-white/[0.07] rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.05] hover:-translate-y-1.5 hover:shadow-2xl ${accent.border}`}
+                  className={`relative h-full bg-white/3 border border-white/[0.07] rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/5 hover:-translate-y-1.5 hover:shadow-2xl ${accent.border}`}
                 >
-                  <div className={`relative h-36 bg-gradient-to-br ${accent.gradient}`}>
+                  <div className={`relative h-36 bg-linear-to-br ${accent.gradient}`}>
                     <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "18px 18px" }} />
-                    <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/[0.04] rounded-full blur-2xl" />
+                    <div className="absolute -top-10 -right-10 w-28 h-28 bg-white/4 rounded-full blur-2xl" />
                     <div className="absolute top-3 left-3">
                       <span className="px-2 py-0.5 bg-black/40 backdrop-blur text-[10px] font-medium text-white rounded">
                         {course.level.replace("_", " ")}
                       </span>
                     </div>
                     <div className="absolute top-3 right-3">
-                      <span className={`px-2 py-0.5 bg-gradient-to-r ${accent.gradient.replace("hover", "")} text-white text-xs font-bold rounded`}>
+                      <span className={`px-2 py-0.5 bg-linear-to-r ${accent.gradient.replace("hover", "")} text-white text-xs font-bold rounded`}>
                         ${course.price}
                       </span>
                     </div>
                   </div>
 
                   <div className="p-5 flex flex-col flex-1">
-                    <span className={`px-1.5 py-0.5 bg-white/[0.05] ${accent.text} text-[9px] font-semibold rounded uppercase tracking-wider w-fit mb-2`}>
+                    <span className={`px-1.5 py-0.5 bg-white/5 ${accent.text} text-[9px] font-semibold rounded uppercase tracking-wider w-fit mb-2`}>
                       {course.category.name}
                     </span>
                     <Text variant="h3" color="white" size="md" className="mb-1.5 group-hover:text-sky-300 transition-colors line-clamp-2">

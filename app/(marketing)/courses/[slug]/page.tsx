@@ -339,7 +339,7 @@ export default function CourseDetailPage({ params }: { params: { slug: string } 
                         >
                           <button
                             onClick={() => toggleModule(mod.id)}
-                            className="w-full flex items-center justify-between p-5 hover:bg-white/[0.02] transition-colors"
+                            className="w-full flex items-center justify-between p-5 hover:bg-white/2 transition-colors"
                           >
                             <div className="flex items-center gap-4 text-left">
                               <span className="w-8 h-8 bg-cyan-400/10 text-cyan-400 rounded-lg flex items-center justify-center text-sm font-bold shrink-0">

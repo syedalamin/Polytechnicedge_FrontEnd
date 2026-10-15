@@ -20,8 +20,8 @@ export default function CurriculumPreview() {
 
             <div className="space-y-3 mb-6">
               {featuredCourse.modules.map((mod) => (
-                <div key={mod.id} className="flex items-start gap-3 p-3 bg-white/[0.02] border border-white/[0.06] rounded-lg">
-                  <div className="w-7 h-7 rounded-md bg-blue-500/10 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-blue-400">
+                <div key={mod.id} className="flex items-start gap-3 p-3 bg-white/2 border border-white/6 rounded-lg">
+                  <div className="w-7 h-7 rounded-md bg-blue-500/10 flex items-center justify-center shrink-0 text-[10px] font-bold text-blue-400">
                     {String(mod.serial).padStart(2, "0")}
                   </div>
                   <div>
@@ -42,12 +42,12 @@ export default function CurriculumPreview() {
             </Link>
           </div>
 
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6">
+          <div className="bg-white/2 border border-white/6 rounded-2xl p-6">
             <h3 className="text-lg font-bold mb-5">What You&apos;ll Learn</h3>
             <div className="space-y-3">
               {featuredCourse.whatYouWillLearn.map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <CheckCircle2 className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-green-400 mt-0.5 shrink-0" />
                   <p className="text-sm text-gray-300">{item}</p>
                 </div>
               ))}
