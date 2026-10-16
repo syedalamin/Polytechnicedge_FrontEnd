@@ -1,19 +1,25 @@
 "use client";
 
-import { useAllCourses, usePublishedCourses } from "@/services/graphql";
-import { BookOpen } from "lucide-react";
+import CourseCard from "@/components/common/CourseCard";
+import { usePublishedCourses } from "@/services/graphql";
+import { BookOpen, ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 export default function CoursesPage() {
   const [page, setPage] = useState(1);
-  const limit = 5;
-  const { courses, meta, loading, refetch } = usePublishedCourses(
-    {},
-    page,
-    limit,
-  );
+  const limit = 1;
+  const { courses, meta, loading } = usePublishedCourses({}, page, limit);
 
-  console.log("Courses:", courses);
+  const hasNextPage = meta ? page < meta.totalPages : false;
+  const hasPrevPage = meta ? page > 1 : false;
+
+  const goToNextPage = () => {
+    if (hasNextPage) setPage((prev) => prev + 1);
+  };
+
+  const goToPrevPage = () => {
+    if (hasPrevPage) setPage((prev) => prev - 1);
+  };
 
   return (
     <main className="min-h-screen bg-[#0a0e27]">
@@ -39,6 +45,45 @@ export default function CoursesPage() {
             Find the perfect course to advance your career. Learn from industry
             experts at your own pace.
           </p>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto mt-12">
+          {loading ? (
+            <p className="text-white text-center">Loading courses...</p>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {courses.map((course) => (
+                  <CourseCard key={course.id} {...course} />
+                ))}
+              </div>
+
+              {/* Pagination */}
+              {meta && meta.totalPages > 1 && (
+                <div className="mt-10 flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={goToPrevPage}
+                    disabled={!hasPrevPage}
+                    className="px-6 py-2 rounded-lg bg-white/5 border border-white/10 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/10 transition"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Previous
+                  </button>
+                  <span className="text-gray-400 text-sm">
+                    Page {meta.page} of {meta.totalPages}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={goToNextPage}
+                    disabled={!hasNextPage}
+                    className="px-6 py-2 rounded-lg bg-white/5 border border-white/10 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white/10 transition"
+                  >
+                    Next <ArrowRight className="w-4 h-4 ml-2" />
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </section>
     </main>
