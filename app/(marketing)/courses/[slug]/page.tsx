@@ -19,6 +19,7 @@ import { use, useState } from "react";
 import { useCourse } from "@/services/graphql";
 import type { IContentBrief, ICourse, IModuleBrief } from "@/services/graphql";
 import HeroSection from "@/ui/marketing/courseDetails/HeroSection";
+import MetaActionBar from "@/ui/marketing/courseDetails/MetaActionBar";
 
 interface CourseDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -93,86 +94,7 @@ function UnlockedContentPreview({ content }: { content: IContentBrief }) {
   );
 }
 
-// ----------------------------------------------------------------------
-// Reusable Component 2: Hero Section
-// ----------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------
-// Reusable Component 3: Meta Action Bar
-// ----------------------------------------------------------------------
-function MetaActionBar({ course }: { course: ICourse }) {
-  const isPublished = course.isPublished ?? false;
-
-  return (
-    <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mb-8">
-      <div className="bg-[#0d1230] border border-white/10 rounded-xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-          {course.price != null && (
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
-                <DollarSign className="w-4 h-4 text-cyan-400" />
-              </div>
-              <div>
-                <span className="text-[10px] text-gray-400 block">
-                  Course Price
-                </span>
-                <span className="text-base font-bold text-white">
-                  ${course.price}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {course.accessExpiresInDays && (
-            <div className="flex items-center gap-2.5 border-l border-white/10 pl-4 sm:pl-6">
-              <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                <Clock className="w-4 h-4 text-purple-400" />
-              </div>
-              <div>
-                <span className="text-[10px] text-gray-400 block">
-                  Access Duration
-                </span>
-                <span className="text-xs font-semibold text-white">
-                  {course.accessExpiresInDays} Days
-                </span>
-              </div>
-            </div>
-          )}
-
-          {course.level && (
-            <div className="flex items-center gap-2.5 border-l border-white/10 pl-4 sm:pl-6">
-              <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center">
-                <GraduationCap className="w-4 h-4 text-pink-400" />
-              </div>
-              <div>
-                <span className="text-[10px] text-gray-400 block">Level</span>
-                <span className="text-xs font-semibold text-white capitalize">
-                  {course.level.replace("_", " ")}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <div>
-          {isPublished ? (
-            <Link
-              href="/register"
-              className="inline-flex items-center justify-center px-6 py-2.5 bg-linear-to-r from-cyan-400 via-purple-500 to-pink-500 text-white font-medium text-xs sm:text-sm rounded-lg hover:brightness-110 transition-all shadow-md"
-            >
-              Enroll Now
-            </Link>
-          ) : (
-            <span className="px-4 py-2 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-medium">
-              Enrollment Closed
-            </span>
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
+ 
 
 // ----------------------------------------------------------------------
 // Reusable Component 4: Collapsible About Course Section

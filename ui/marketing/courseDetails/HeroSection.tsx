@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const HeroSection = ({ course }: { course: ICourse }) => {
   return (
-    <section className="relative pt-20 pb-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
 
       <div className="relative max-w-6xl mx-auto">

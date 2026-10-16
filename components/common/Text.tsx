@@ -12,7 +12,7 @@ type TextVariant = keyof typeof tagMap;
 
 interface TextProps extends HTMLAttributes<HTMLElement> {
   variant?: TextVariant;
-  color?: "default" | "primary" | "secondary" | "ghost" | "dimmed" | "white";
+  color?: "default" | "primary" | "secondary" | "ghost" | "dimmed" | "white" | "gray";
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "7xl";
   children: ReactNode;
 }
@@ -67,6 +67,7 @@ export default function Text({
     secondary: "text-cyan-500 dark:text-cyan-400 font-medium ",
     ghost: "text-gray-700 dark:text-gray-300",
     dimmed: "text-gray-400 dark:text-gray-500",
+    gray: "text-gray-500 dark:text-gray-400",
   };
 
   const activeSize = size ? customSizes[size] : defaultSizes[variant];
