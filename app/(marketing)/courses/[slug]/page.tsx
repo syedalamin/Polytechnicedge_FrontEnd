@@ -18,6 +18,7 @@ import { use, useState } from "react";
 
 import { useCourse } from "@/services/graphql";
 import type { IContentBrief, ICourse, IModuleBrief } from "@/services/graphql";
+import HeroSection from "@/ui/marketing/courseDetails/HeroSection";
 
 interface CourseDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -95,70 +96,7 @@ function UnlockedContentPreview({ content }: { content: IContentBrief }) {
 // ----------------------------------------------------------------------
 // Reusable Component 2: Hero Section
 // ----------------------------------------------------------------------
-function HeroSection({ course }: { course: ICourse }) {
-  return (
-    <section className="relative pt-20 pb-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-purple-500/10 to-pink-500/10" />
 
-      <div className="relative max-w-6xl mx-auto">
-        <Link
-          href="/courses"
-          className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 mb-6 text-xs font-medium transition-colors"
-        >
-          ← Back to Courses
-        </Link>
-
-        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          {/* Left Text */}
-          <div className="lg:col-span-7 flex flex-col items-start gap-3">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-              Premium Course
-            </span>
-
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-tight">
-              {course.title}
-            </h1>
-
-            {course.shortDescription && (
-              <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
-                {course.shortDescription}
-              </p>
-            )}
-
-            {course.previewVideoUrl && (
-              <a
-                href={course.previewVideoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300 transition-all shadow-md shadow-cyan-500/20 text-xs sm:text-sm"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" />
-                Watch Preview Video
-              </a>
-            )}
-          </div>
-
-          {/* Right Image Card */}
-          <div className="lg:col-span-5">
-            <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-white/15 shadow-xl bg-[#0d1230]">
-              {course.thumbnail ? (
-                <img
-                  src={course.thumbnail}
-                  alt={course.title}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="w-full h-full bg-linear-to-br from-cyan-900/30 via-purple-900/30 to-slate-900 flex items-center justify-center">
-                  <BookOpen className="w-12 h-12 text-white/20" />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ----------------------------------------------------------------------
 // Reusable Component 3: Meta Action Bar
@@ -396,10 +334,8 @@ function CurriculumSection({ weeks }: { weeks: WeekGroup[] }) {
   );
 }
 
-// ----------------------------------------------------------------------
-// Main Page Component
-// ----------------------------------------------------------------------
-export default function CourseDetailPage({ params }: CourseDetailPageProps) {
+
+const CourseDetailPage = ({ params }: CourseDetailPageProps) => {
   const { slug } = use(params);
   const { course, loading, error, refetch } = useCourse(slug);
   const courseResult = (course ?? null) as ICourse | null;
@@ -447,4 +383,6 @@ export default function CourseDetailPage({ params }: CourseDetailPageProps) {
       {weeks.length > 0 && <CurriculumSection weeks={weeks} />}
     </main>
   );
-}
+};
+
+export default CourseDetailPage;

@@ -8,7 +8,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "outline"
     | "edit"
     | "remove"
-    | "more";
+    | "more"
+    | "extra"
+    ;
   size?: "xs"|"sm" | "md" | "lg" | "action";
   loading?: boolean;
   leftIcon?: ReactNode;
@@ -49,6 +51,9 @@ export default function Button({
     remove:
       "p-1 text-gray-400 hover:text-red-400 transition-colors rounded-lg hover:bg-white/10",
     more: "p-1 text-gray-400 hover:text-white transition-colors rounded-lg hover:bg-white/10",
+
+    extra:
+      " bg-cyan-400 text-slate-950 font-semibold hover:bg-cyan-300 transition-all shadow-md shadow-cyan-500/20 text-xs sm:text-sm",
   };
 
   const sizes = {
