@@ -39,7 +39,7 @@ export const useAllCourses = (
 };
 
 export const useCourse = (slug?: string) => {
-  const { data, loading, error, refetch } = useQuery(GET_COURSE, {
+  const { data, loading, error, refetch } = useQuery<{ course: any }>(GET_COURSE, {
     variables: { slug },
     skip: !slug,
     fetchPolicy: "cache-and-network",
@@ -47,7 +47,7 @@ export const useCourse = (slug?: string) => {
   });
 
   return {
-    course: data || null,
+    course: data?.course || null,
     loading,
     error,
     refetch,

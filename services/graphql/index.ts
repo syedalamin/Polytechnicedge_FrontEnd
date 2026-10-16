@@ -21,7 +21,7 @@ export type { IInstructor, IPaginatedInstructors } from "./instructors/instructo
 export * from "./instructors/instructorHook";
 
 export * from "./courses/courseQueries";
-export type { ICourse, ICourseFilter, IPaginatedCourses } from "./courses/courseTypes";
+export type { ICourse, ICourseFilter, IPaginatedCourses, IModuleBrief } from "./courses/courseTypes";
 export * from "./courses/courseHook";
 
 export * from "./modules/moduleQueries";

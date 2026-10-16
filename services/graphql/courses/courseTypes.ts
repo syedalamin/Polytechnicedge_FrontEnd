@@ -1,4 +1,5 @@
 import { IPaginationMeta } from "../shared/paginationTypes";
+import { IContentBrief } from "../modules/moduleTypes";
 
 export interface ICategory {
   id: string;
@@ -12,6 +13,7 @@ export interface IModuleBrief {
   slug: string;
   weekNumber: number;
   serial: number;
+  contents?: IContentBrief[];
 }
 
 export interface ICourse {

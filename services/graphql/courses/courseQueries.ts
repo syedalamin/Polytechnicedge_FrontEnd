@@ -72,6 +72,16 @@ export const GET_COURSE = gql`
         slug
         weekNumber
         serial
+        contents {
+          id
+          title
+          contentType
+          contentUrl
+          textContent
+          isLocked
+          duration
+          serial
+        }
       }
       createdAt
       updatedAt

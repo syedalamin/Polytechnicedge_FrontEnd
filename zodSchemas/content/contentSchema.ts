@@ -7,8 +7,8 @@ export const contentSchema = {
   
     title: z.string().min(3, "Title must be at least 3 characters"),
     contentType: z.enum(contentTypes),
-    contentUrl: z.string().optional().default(""),
-    textContent: z.string().optional().default(""),
+    contentUrl: z.string().optional(),
+    textContent: z.string().optional(),
     duration: z.number().optional(),
     isLocked: z.preprocess(
       (val) => val === "true" || val === true,

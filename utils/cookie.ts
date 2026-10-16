@@ -1,6 +1,12 @@
 "use client";
 
-export function getCookie(name: string): any | null {
+export interface LoginData {
+  role?: string;
+  [key: string]: unknown;
+}
+
+export function getCookie(name: string): LoginData | null {
+  if (typeof document === "undefined") return null;
   try {
     const cookie = document.cookie
       .split("; ")
@@ -13,10 +19,10 @@ export function getCookie(name: string): any | null {
     if (rawValue.startsWith("j:")) {
       const parsedValue = JSON.parse(rawValue.substring(2));
 
-      return parsedValue;
+      return parsedValue as LoginData;
     }
 
-    return rawValue;
+    return rawValue as unknown as LoginData;
   } catch {
     return null;
   }

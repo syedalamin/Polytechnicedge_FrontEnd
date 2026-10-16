@@ -37,12 +37,13 @@ const ProtectedRoute = ({
       return;
     }
 
-    if (!allowedRoles.includes(loginData.role)) {
+    if (!allowedRoles.includes(loginData.role as UserRole)) {
       router.replace(redirectTo);
 
       return;
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- route guard must wait for the auth check
     setLoading(false);
   }, [router, allowedRoles, redirectTo]);
 
