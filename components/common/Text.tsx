@@ -30,11 +30,12 @@ export default function Text({
   const baseStyles = "transition-all duration-300 m-0 p-0 leading-normal";
 
   const fontWeights = {
-    h1: "font-extrabold tracking-tight leading-tight",
-    h2: "font-bold tracking-tight leading-tight",
-    h3: "font-semibold tracking-tight leading-tight",
-    body: "font-normal tracking-tight leading-tight",
-    caption: "font-medium uppercase tracking-wider inline-block leading-tight",
+    h1: "font-extrabold tracking-tight leading-tight whitespace-pre-line",
+    h2: "font-bold tracking-tight leading-tight whitespace-pre-line",
+    h3: "font-semibold tracking-tight leading-tight whitespace-pre-line",
+    body: "font-normal tracking-tight leading-tight whitespace-pre-line",
+    caption:
+      "font-medium uppercase tracking-wider inline-block leading-tight whitespace-pre-line",
   };
 
   const defaultSizes = {
@@ -67,7 +68,7 @@ export default function Text({
     secondary: "text-cyan-500 dark:text-cyan-400 font-medium ",
     ghost: "text-gray-700 dark:text-gray-300",
     dimmed: "text-gray-400 dark:text-gray-500",
-    gray: "text-gray-500 dark:text-gray-400",
+    gray: "text-gray-300 dark:text-gray-400",
   };
 
   const activeSize = size ? customSizes[size] : defaultSizes[variant];

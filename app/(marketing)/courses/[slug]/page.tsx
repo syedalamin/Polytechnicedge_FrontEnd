@@ -20,6 +20,7 @@ import { useCourse } from "@/services/graphql";
 import type { IContentBrief, ICourse, IModuleBrief } from "@/services/graphql";
 import HeroSection from "@/ui/marketing/courseDetails/HeroSection";
 import MetaActionBar from "@/ui/marketing/courseDetails/MetaActionBar";
+import AboutCourseSection from "@/ui/marketing/courseDetails/AboutCourseSection";
 
 interface CourseDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -99,36 +100,6 @@ function UnlockedContentPreview({ content }: { content: IContentBrief }) {
 // ----------------------------------------------------------------------
 // Reusable Component 4: Collapsible About Course Section
 // ----------------------------------------------------------------------
-function AboutCourseSection({ description }: { description: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mb-8">
-      <div className="bg-[#0d1230] border border-white/10 rounded-xl overflow-hidden transition-all">
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          className="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-white/5 transition-colors"
-        >
-          <h2 className="text-base sm:text-lg font-bold text-white">
-            About This Course
-          </h2>
-          <ChevronDown
-            className={`w-4 h-4 text-cyan-400 transition-transform duration-200 ${
-              isOpen ? "rotate-180" : "rotate-0"
-            }`}
-          />
-        </button>
-
-        {isOpen && (
-          <div className="p-4 sm:p-5 pt-0 border-t border-white/5 text-gray-300 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-            {description}
-          </div>
-        )}
-      </div>
-    </section>
-  );
-}
 
 // ----------------------------------------------------------------------
 // Reusable Component 5: Curriculum Section (Week & Module Accordion)
